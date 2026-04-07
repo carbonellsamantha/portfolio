@@ -6,27 +6,26 @@
   <title>Accelerated Checkout — Smashley's Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/S-logomark-nobg.png" />
+  <link rel="apple-touch-icon" href="images/S-logomark-nobg.png" />
   <style>
-    /* ── Reset & Variables ─────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --purple:       #5B3FA6;
-      --purple-light: #EDE8F8;
-      --purple-mid:   #8B6FCB;
-      --ink:          #1A1A1A;
+      --purple:       #723b7d;
+      --green:        #00753e;
+      --green-dark:   #004c29;
+      --ink:          #1a1a1a;
       --ink-soft:     #444;
-      --ink-muted:    #777;
-      --bg:           #FFFFFF;
-      --card-bg:      #F3EFFC;
-      --border:       #E0D9F5;
-
+      --bg:           #ffffff;
+      --bg-light:     #f2f2f2;
+      --bg-nav:       #f2f2f2;
+      --border:       #c8c8c8;
+      --green-border: rgba(0,117,62,0.3);
       --font-display: 'Playfair Display', Georgia, serif;
       --font-body:    'Montserrat', sans-serif;
-
       --content-width: 960px;
-      --text-measure: 65ch;
     }
 
     html { scroll-behavior: smooth; }
@@ -38,465 +37,698 @@
       color: var(--ink);
       background: var(--bg);
       -webkit-font-smoothing: antialiased;
+      padding-top: 70px; /* Adjust to match nav height */
     }
 
-    /* ── Layout ────────────────────────────────────────────────── */
     .container {
       max-width: var(--content-width);
       margin: 0 auto;
       padding: 0 2rem;
     }
 
-    /* ── Nav ───────────────────────────────────────────────────── */
-    nav {
-      padding: 1.5rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* ── Nav breadcrumb ──────────────────────────────────────────── */
+    .cs-nav-wrap {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .cs-nav {
       max-width: var(--content-width);
       margin: 0 auto;
-    }
-
-    .nav-logo { width: 48px; height: 48px; }
-
-    .nav-links {
+      padding: 2rem 2rem 1rem;
       display: flex;
-      gap: 2rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      font-family: var(--font-body);
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-soft);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: var(--purple); }
-
-    /* ── Back Link ─────────────────────────────────────────────── */
-    .back-link {
-      display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--purple);
-      text-decoration: none;
-      letter-spacing: 0.04em;
-      margin-bottom: 2rem;
+      gap: 0.5rem;
     }
 
-    .back-link:hover { text-decoration: underline; }
+    .cs-nav img { width: 24px; height: 24px; border-radius: 6px; object-fit: contain; }
+    .cs-nav a { font-size: 14px; font-weight: 500; color: var(--purple); text-decoration: underline; text-underline-offset: 2px; }
+    .cs-nav .sep, .cs-nav .current { font-size: 14px; font-weight: 500; color: var(--ink-soft); }
 
-    /* ── Case Study Hero ───────────────────────────────────────── */
+    /* ── Hero ───────────────────────────────────────────────────── */
     .cs-hero {
-      padding: 2rem 0 1.5rem;
+      padding: 4rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
     }
 
     .cs-hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 900;
+      font-family: var(--font-body);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
       line-height: 1.15;
-      margin-bottom: 1.5rem;
-      max-width: var(--text-measure);
     }
 
     .cs-hero-intro {
-      font-size: 15px;
-      color: var(--ink-soft);
-      max-width: var(--text-measure);
-      margin-bottom: 2rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2vw, 1.375rem);
+      font-weight: 600;
+      line-height: 1.7;
     }
+
+    .cs-hero-intro strong { font-weight: 900; }
 
     .cs-hero-image {
       width: 100%;
-      border-radius: 10px;
-      overflow: hidden;
-      background: linear-gradient(135deg, #1a5c3a 0%, #2d7a50 100%);
-      aspect-ratio: 16 / 7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1rem;
-    }
-
-    .cs-hero-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    /* ── Wave Divider ──────────────────────────────────────────── */
-    .wave-divider {
-      width: 100%;
-      overflow: hidden;
-      line-height: 0;
-      padding: 0.5rem 0;
-    }
-
-    .wave-divider img {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
-
-    /* ── Body Text ─────────────────────────────────────────────── */
-    .cs-body-text {
-      max-width: var(--text-measure);
-      color: var(--ink-soft);
-      font-size: 15px;
-      line-height: 1.8;
-      margin-bottom: 1.5rem;
-    }
-
-    /* ── Section Headings ──────────────────────────────────────── */
-    .cs-section {
-      padding: 2rem 0;
-    }
-
-    .cs-section-title {
-      font-family: var(--font-display);
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 1rem;
-      max-width: var(--text-measure);
-    }
-
-    .cs-section-subtitle {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-size: 1.1rem;
-      color: var(--purple);
-      margin-bottom: 0.75rem;
-    }
-
-    /* ── Two-Column Layout ─────────────────────────────────────── */
-    .cs-two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2.5rem;
-      align-items: start;
-      margin: 1.5rem 0;
-    }
-
-    .cs-two-col.image-right { }
-    .cs-two-col.image-left  { }
-
-    .cs-two-col img,
-    .cs-two-col .img-placeholder {
-      width: 100%;
       border-radius: 8px;
-      background: linear-gradient(135deg, #1a5c3a 0%, #2d7a50 100%);
+      overflow: hidden;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.16);
       aspect-ratio: 4 / 3;
-      display: block;
+      background: linear-gradient(37deg, #1a5c3a, #2d7a50);
     }
 
-    .cs-two-col img { object-fit: cover; }
+    .cs-hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* ── Bullet List ───────────────────────────────────────────── */
-    .cs-list {
-      list-style: none;
-      padding: 0;
-      margin: 0.5rem 0 1.5rem;
-      max-width: var(--text-measure);
-    }
-
-    .cs-list li {
-      position: relative;
-      padding-left: 1.25rem;
-      font-size: 14px;
-      color: var(--ink-soft);
-      margin-bottom: 0.5rem;
-      line-height: 1.65;
-    }
-
-    .cs-list li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--purple);
-      font-size: 12px;
-      top: 2px;
-    }
-
-    /* ── Callout Cards (Results) ───────────────────────────────── */
-    .cs-callout-grid {
+    /* ── Meta pills ──────────────────────────────────────────────── */
+    .cs-meta {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
-      margin: 1.5rem 0;
     }
 
-    .cs-callout {
-      background: var(--card-bg);
+    .cs-meta-item {
+      background: rgba(255,255,255,0.64);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 1.25rem;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
     }
 
-    .cs-callout-label {
+    .cs-meta-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+    .cs-meta-label { font-family: var(--font-display); font-size: 12px; color: var(--ink-soft); line-height: 1; margin-bottom: 2px; }
+    .cs-meta-value { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.65; }
+
+    /* ── Wave divider ────────────────────────────────────────────── */
+    .wave-divider {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+      line-height: 0;
+    }
+
+    .wave-divider img { display: block; width: 100%; height: auto; }
+
+    /* ── Sections ────────────────────────────────────────────────── */
+    .cs-section { padding: 4rem 0; }
+
+    .cs-section-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .cs-section-icon {
+      width: 48px; height: 48px;
+      background: var(--bg-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; flex-shrink: 0;
+    }
+
+    .cs-section-title h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .cs-inner { padding: 0 4rem; }
+
+    .cs-body {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Key findings ────────────────────────────────────────────── */
+    .cs-findings {
+      background: var(--bg-light);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cs-findings-title { font-size: 20px; font-weight: 600; color: var(--ink); line-height: 1.8; }
+
+    .cs-finding-item { display: flex; gap: 0.5rem; align-items: flex-start; }
+    .cs-finding-num { font-size: 18px; font-weight: 600; color: var(--purple); flex-shrink: 0; line-height: 1.8; }
+    .cs-finding-text { font-size: 16px; line-height: 1.8; }
+    .cs-finding-text strong { font-weight: 500; color: var(--ink); display: block; }
+    .cs-finding-text span { color: var(--ink-soft); font-weight: 400; }
+
+    /* ── Full-width image ────────────────────────────────────────── */
+    .cs-full-image { width: 100%; border-radius: 8px; overflow: hidden; margin: 1rem 0; }
+    .cs-full-image img { width: 100%; height: auto; display: block; }
+    .cs-full-image .placeholder { width: 100%; background: linear-gradient(37deg,#1a5c3a,#2d7a50); border-radius: 8px; }
+
+    /* ── Solution cards ──────────────────────────────────────────── */
+    .cs-solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1rem 0; }
+
+    .cs-solution-card {
+      border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1.5rem; color: white;
+    }
+
+    .cs-solution-card.green-light { background: var(--green); }
+    .cs-solution-card.green-dark  { background: var(--green-dark); }
+    .cs-solution-card-title { font-size: 20px; font-weight: 600; line-height: 1.8; }
+    .cs-solution-card-desc  { font-size: 16px; font-weight: 500; line-height: 1.8; }
+    .cs-solution-card-meta  { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cs-solution-meta-label { font-family: var(--font-display); font-size: 12px; color: rgba(255,255,255,0.64); display: block; margin-bottom: 2px; }
+    .cs-solution-meta-value { font-size: 16px; font-weight: 500; line-height: 1.65; color: white; }
+
+    /* ── Key Design Decisions — Carousel ─────────────────────────── */
+    .cs-carousel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0;
+    }
+
+    .cs-carousel-counter {
+      font-size: 16px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    .cs-carousel-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .cs-carousel-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      transition: background 0.15s;
+    }
+
+    .cs-carousel-btn:hover { background: #fff; }
+
+    .cs-carousel-track-wrap {
+      width: 100%;
+      padding: 0;
+      overflow-x: auto;
+      overflow-y: visible;
+    }
+
+    .cs-carousel-track {
+      display: flex;
+      gap: 2rem;
+      padding: 0 0;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .cs-carousel-card {
+      background: var(--bg-light);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+        width: 80%;
+        max-width: 700px;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cs-carousel-card-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--bg-light);
+      flex-shrink: 0;
+    }
+
+    .cs-carousel-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .cs-carousel-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .cs-carousel-tag {
+      display: inline-flex;
+      align-items: center;
+      background: var(--purple);
+      color: white;
       font-size: 12px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--purple-mid);
-      margin-bottom: 0.4rem;
-    }
-
-    .cs-callout-value {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--purple);
+      padding: 4px 8px;
+      border-radius: 2px;
       line-height: 1;
-      margin-bottom: 0.4rem;
+      align-self: flex-start;
     }
 
-    .cs-callout-desc {
-      font-size: 13px;
-      color: var(--ink-soft);
-      line-height: 1.5;
-    }
-
-    /* ── Two-col text blocks (Proposals, etc.) ─────────────────── */
-    .cs-text-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin: 1rem 0 1.5rem;
-    }
-
-    .cs-text-block-title {
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 700;
+    .cs-carousel-card-title {
+      font-size: 20px;
+      font-weight: 600;
       color: var(--ink);
-      margin-bottom: 0.5rem;
+      line-height: 1.8;
     }
 
-    .cs-text-block-body {
-      font-size: 13px;
+    .cs-carousel-card-text {
+      font-size: 16px;
       color: var(--ink-soft);
-      line-height: 1.65;
+      line-height: 1.8;
     }
 
-    /* ── Animations ────────────────────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
+    .cs-carousel-card-text p + p { margin-top: 0.75rem; }
+
+    /* ── Results ─────────────────────────────────────────────────── */
+    .cs-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+
+    .cs-stat-card {
+      border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem; color: white;
     }
 
-    .cs-hero h1 { animation: fadeUp 0.5s ease both; }
-    .cs-hero-intro { animation: fadeUp 0.5s ease 0.1s both; }
-    .cs-hero-image { animation: fadeUp 0.5s ease 0.2s both; }
+    .cs-stat-card.green-light { background: var(--green); }
+    .cs-stat-card.green-dark  { background: var(--green-dark); }
+    .cs-stat-icon { font-size: 2rem; line-height: 1; }
+    .cs-stat-label { font-family: var(--font-display); font-size: 12px; color: rgba(255,255,255,0.64); }
+    .cs-stat-value { font-size: 2rem; font-weight: 600; line-height: 1; }
+    .cs-stat-desc  { font-size: 16px; font-weight: 500; line-height: 1.8; }
 
-    /* ── Responsive ────────────────────────────────────────────── */
-    @media (max-width: 680px) {
-      .cs-two-col     { grid-template-columns: 1fr; }
-      .cs-text-grid   { grid-template-columns: 1fr; }
-      .cs-callout-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
+    /* ── Reflections ─────────────────────────────────────────────── */
+    .cs-reflections-box {
+      background: var(--bg-light); border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .cs-reflections-box h3 { font-size: 20px; font-weight: 600; line-height: 1.8; color: var(--ink); }
+
+    .cs-reflections-box ul { list-style: disc; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .cs-reflections-box li { font-size: 16px; font-weight: 500; line-height: 1.8; color: var(--ink); }
+
+    /* ── Dark Mode ───────────────────────────────────────────────── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --purple:   #a673b4;
+        --ink:      #f0f0f0;
+        --ink-soft: #aaa;
+        --bg:       #0f0f0f;
+        --bg-light: #1a1a1a;
+        --bg-nav:   #1a1a1a;
+        --border:   #333;
+      }
+      body { background: var(--bg); }
+      .cs-meta-item { background: rgba(255,255,255,0.05); }
+      .cs-carousel-btn { background: rgba(255,255,255,0.08); }
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .cs-meta          { grid-template-columns: 1fr 1fr; }
+      .cs-solution-grid { grid-template-columns: 1fr; }
+      .cs-results-grid  { grid-template-columns: 1fr; }
+      .cs-inner         { padding: 0 1rem; }
+      .cs-carousel-header    { padding: 0 1rem; }
+      .cs-carousel-track-wrap { padding: 0 1rem; }
+      .cs-carousel-card { width: 85%; }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta { grid-template-columns: 1fr; }
+      .cs-carousel-card { width: 90%; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
-  <nav>
-    <a href="index.html">
-      <img src="S-logomark-nobg.png" class="nav-logo" alt="Smashley logo" />
-    </a>
-    <ul class="nav-links">
-      <li><a href="index.html#work">Work</a></li>
-      <li><a href="index.html#about">About</a></li>
-      <li><a href="resume.pdf">Resume</a></li>
-    </ul>
-  </nav>
+  <!-- Nav breadcrumb -->
+  <div class="cs-nav-wrap">
+    <nav class="cs-nav">
+      <img src="images/S-logomark-nobg.png" alt="Smashley logo" />
+      <a href="index.html">Smashley's Design Portfolio</a>
+      <span class="sep">/</span>
+      <span class="current">Accelerated Checkout</span>
+    </nav>
+  </div>
 
   <div class="container">
 
-    <a href="index.html" class="back-link">← Back to portfolio</a>
-
-    <!-- Case Study Hero -->
+    <!-- Hero -->
     <section class="cs-hero">
       <h1>Accelerated Checkout</h1>
-      <p class="cs-hero-intro">
-        Redesigning the Publix app checkout flow to reduce friction, increase cart conversion, and help customers complete their orders faster.
-      </p>
+      <p class="cs-hero-intro">Increased pay-online rates by <strong>22%</strong> by redesigning checkout and introducing a faster, single-item express purchase flow</p>
       <div class="cs-hero-image">
-        <!-- Replace src with your actual hero image -->
-        <!-- <img src="images/checkout-hero.png" alt="Accelerated Checkout" /> -->
+        <video src="images/CheckoutPromo.mov" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;" aria-label="Accelerated Checkout Promo"></video>
       </div>
-    </section>
-
-  </div>
-
-  <!-- Wave Divider -->
-  <div class="wave-divider">
-    <img src="divider-purple.png" alt="" aria-hidden="true" />
-  </div>
-
-  <div class="container">
-
-    <!-- How it all started -->
-    <section class="cs-section">
-      <h2 class="cs-section-title">How it all started</h2>
-      <p class="cs-body-text">
-        A brief description of the project origin — what triggered the work, who was involved, and what the team set out to solve. Replace this with the actual content from your Notion page.
-      </p>
-      <div class="cs-two-col image-right">
-        <div>
-          <p class="cs-body-text">Additional context, background research, or early observations. Keep body text to 65 characters per line max — the <code>max-width: 65ch</code> rule handles this automatically.</p>
+      <div class="cs-meta">
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">👤</span>
+          <div><p class="cs-meta-label">Client</p><p class="cs-meta-value">Publix</p></div>
         </div>
-        <div class="img-placeholder"></div>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- Wave Divider -->
-  <div class="wave-divider">
-    <img src="divider-purple.png" alt="" aria-hidden="true" />
-  </div>
-
-  <div class="container">
-
-    <!-- The Challenge -->
-    <section class="cs-section">
-      <h2 class="cs-section-title">The Challenge</h2>
-      <p class="cs-body-text">Describe the core problem. What was broken, slow, or frustrating? What data or user research surfaced it?</p>
-      <ul class="cs-list">
-        <li>Key insight or constraint #1</li>
-        <li>Key insight or constraint #2</li>
-        <li>Key insight or constraint #3</li>
-      </ul>
-      <div class="cs-two-col">
-        <div class="img-placeholder"></div>
-        <div>
-          <p class="cs-body-text">Supporting context or competitive analysis notes. Keep each paragraph focused on one idea.</p>
-          <p class="cs-body-text">Second point or supporting detail. Use bullet lists for scannable takeaways above.</p>
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">📅</span>
+          <div><p class="cs-meta-label">Timeline</p><p class="cs-meta-value">24 weeks</p></div>
+        </div>
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">⏱️</span>
+          <div><p class="cs-meta-label">Year</p><p class="cs-meta-value">2023–2024</p></div>
+        </div>
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">🎨</span>
+          <div><p class="cs-meta-label">Role</p><p class="cs-meta-value">Lead Designer</p></div>
         </div>
       </div>
     </section>
 
   </div>
 
-  <!-- Wave Divider -->
-  <div class="wave-divider">
-    <img src="divider-purple.png" alt="" aria-hidden="true" />
+  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <!-- Context & Challenge -->
+  <div class="container">
+    <section class="cs-section">
+      <div class="cs-section-title">
+        <div class="cs-section-icon">🎯</div>
+        <h2>Context &amp; Challenge</h2>
+      </div>
+      <div class="cs-inner">
+        <p class="cs-body">The Publix app's checkout only accepted credit or debit cards, creating friction for customers and limiting conversion. After leading a payment-preference study, the Product Manager and I advocated for adding Apple Pay. Leadership quickly approved the proposal and requested a three-month launch.</p>
+        <p class="cs-body">The expectation was to layer Apple Pay into the existing flow. However, as I began working with product, engineering, and analytics, it became clear the issue wasn't just payment—the checkout experience itself was fundamentally broken.</p>
+      </div>
+    </section>
   </div>
 
-  <div class="container">
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
-    <!-- Two Project Proposals -->
+  <!-- Research -->
+  <div class="container">
     <section class="cs-section">
-      <h2 class="cs-section-title">Two Project Proposals</h2>
-      <p class="cs-body-text">Brief framing of the two directions explored before committing to a solution path.</p>
-      <div class="cs-text-grid">
-        <div>
-          <p class="cs-text-block-title">01 Option one name here</p>
-          <p class="cs-text-block-body">Description of the first proposal — approach, rationale, tradeoffs. Keep it concise and focused on why it was considered.</p>
+      <div class="cs-section-title">
+        <div class="cs-section-icon">💡</div>
+        <h2>Research</h2>
+      </div>
+      <div class="cs-inner">
+        <div class="cs-full-image">
+          <img src="images/checkout-research.png" alt="Research" />
         </div>
-        <div>
-          <p class="cs-text-block-title">02 Option two name here</p>
-          <p class="cs-text-block-body">Description of the second proposal. Explain what differentiated it from option one and why it was ultimately chosen (or not).</p>
+        <p class="cs-body">Analytics, usability testing, and competitive research revealed two critical problems that were causing significant customer friction and revenue loss.</p>
+        <div class="cs-findings">
+          <p class="cs-findings-title">Key Findings</p>
+          <div class="cs-finding-item">
+            <span class="cs-finding-num">➊</span>
+            <div class="cs-finding-text">
+              <strong>High abandonment at the final step</strong>
+              <span>30% of users backtracked from Step 4 → 3, and 10% abandoned entirely.</span>
+            </div>
+          </div>
+          <div class="cs-finding-item">
+            <span class="cs-finding-num">➋</span>
+            <div class="cs-finding-text">
+              <strong>Slow completion times (5–10 minutes)</strong>
+              <span>Customers selecting the earliest pickup time often exceeded that window while reviewing their order, triggering an error and forcing them to restart checkout.</span>
+            </div>
+          </div>
+        </div>
+        <p class="cs-body">To deliver on leadership's timeline while addressing the broader opportunity, I implemented Apple Pay within the existing system—then used that momentum to reframe the problem and advocate for deeper improvements.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <!-- Solution -->
+  <div class="container">
+    <section class="cs-section">
+      <div class="cs-section-title">
+        <div class="cs-section-icon">✨</div>
+        <h2>Solution</h2>
+      </div>
+      <div class="cs-inner">
+        <p class="cs-body">After delivering the Apple Pay launch, I partnered with the PM to define two follow-up initiatives that addressed both immediate wins and structural issues. Both were approved by leadership.</p>
+        <div class="cs-solution-grid">
+          <div class="cs-solution-card green-light">
+            <div>
+              <p class="cs-solution-card-title">➊ Express Single-Item Purchase</p>
+              <p class="cs-solution-card-desc">Enable single-item purchases directly from product detail pages using Apple Pay.</p>
+            </div>
+            <div class="cs-solution-card-meta">
+              <div><span class="cs-solution-meta-label">Insight</span><span class="cs-solution-meta-value">86% of sub orders contained only one item</span></div>
+              <div><span class="cs-solution-meta-label">Business Goal</span><span class="cs-solution-meta-value">Increase pay-online adoption</span></div>
+              <div><span class="cs-solution-meta-label">Customer Goal</span><span class="cs-solution-meta-value">Faster checkout</span></div>
+            </div>
+          </div>
+          <div class="cs-solution-card green-dark">
+            <div>
+              <p class="cs-solution-card-title">➋ Checkout Redesign</p>
+              <p class="cs-solution-card-desc">Move toward a near 1-click checkout by removing unnecessary steps and preselecting reliable defaults (store, pickup window, payment).</p>
+            </div>
+            <div class="cs-solution-card-meta">
+              <div><span class="cs-solution-meta-label">Business Goal</span><span class="cs-solution-meta-value">Increase conversion, reduce time and abandonment</span></div>
+              <div><span class="cs-solution-meta-label">Customer Goal</span><span class="cs-solution-meta-value">Simpler, faster checkout</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="cs-full-image">
+          <img src="images/checkout-solution.png" alt="Solution screens" />
         </div>
       </div>
     </section>
-
   </div>
 
-  <!-- Wave Divider -->
-  <div class="wave-divider">
-    <img src="divider-purple.png" alt="" aria-hidden="true" />
-  </div>
+  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
 
+  <!-- Key Design Decisions — Carousel -->
   <div class="container">
-
-    <!-- Key Design Decisions -->
     <section class="cs-section">
-      <h2 class="cs-section-title">Key Design Decisions</h2>
-      <p class="cs-body-text">Intro sentence framing the section — what kinds of decisions are documented here and why they mattered.</p>
-
-      <!-- Decision 1 -->
-      <div class="cs-two-col">
-        <div>
-          <p class="cs-section-subtitle">Design decision #1</p>
-          <p class="cs-body-text">Explain the decision, the options considered, and the rationale. Focus on what you learned and how it shaped the design.</p>
-        </div>
-        <div class="img-placeholder"></div>
+      <div class="cs-section-title" style="padding: 0;">
+        <div class="cs-section-icon">🔑</div>
+        <h2>Key Design Decisions</h2>
       </div>
 
-      <!-- Decision 2 -->
-      <div class="cs-two-col image-left">
-        <div class="img-placeholder"></div>
-        <div>
-          <p class="cs-section-subtitle">Design decision #2</p>
-          <p class="cs-body-text">Another key decision — this time image on the left. Alternate image position to add visual rhythm to the page.</p>
+      <!-- Counter + nav buttons -->
+      <div class="cs-carousel-header">
+        <span class="cs-carousel-counter" id="carousel-counter">1 of 8</span>
+        <div class="cs-carousel-buttons">
+          <button class="cs-carousel-btn" id="prev-btn" aria-label="Previous" onclick="moveCarousel(-1)">←</button>
+          <button class="cs-carousel-btn" id="next-btn" aria-label="Next" onclick="moveCarousel(1)">→</button>
         </div>
       </div>
 
-      <!-- Decision 3 -->
-      <div class="cs-two-col">
-        <div>
-          <p class="cs-section-subtitle">Design decision #3</p>
-          <p class="cs-body-text">Keep adding decision blocks as needed. Each one should be specific — avoid generic design talk and focus on the actual tradeoffs you made.</p>
-        </div>
-        <div class="img-placeholder"></div>
-      </div>
+      <!-- Scrollable track -->
+      <div class="cs-carousel-track-wrap">
+        <div class="cs-carousel-track" id="carousel-track">
 
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-1.png" alt="Key Design Decision 1" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">1 of 8</span>
+              <p class="cs-carousel-card-title">Required Intermediary Step</p>
+              <div class="cs-carousel-card-text">
+                <p>Apple Pay could not capture required order details (store, time, contact info).</p>
+                <p>I introduced a lightweight intermediary step before triggering Apple Pay—ensuring all required inputs were captured without breaking flow. This constraint became a design opportunity.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-2.png" alt="Key Design Decision 2" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">2 of 8</span>
+              <p class="cs-carousel-card-title">Unified Pattern Across Both Projects</p>
+              <div class="cs-carousel-card-text">
+                <p>The intermediary step mirrored core checkout actions (store, time, etc.), revealing an opportunity to unify both experiences.</p>
+                <p>We consolidated into a single reusable pattern that improved consistency, reduced engineering complexity, and enabled parallel development.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-3.png" alt="Key Design Decision 3" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">3 of 8</span>
+              <p class="cs-carousel-card-title">Flexible Pickup Windows</p>
+              <div class="cs-carousel-card-text">
+                <p>Customers selected an exact pickup time (e.g., 2:30 PM), which reserved a pickup slot before checkout submission. 60% chose the earliest option, but since checkout took 5–10 minutes, that slot often expired—triggering an error on submission and forcing them to restart. This was a primary driver of drop-off at the final step.</p>
+                <p>I replaced this with a flexible default: “30–45 minutes after checkout.”</p>
+                <p>By assigning the pickup time after checkout, we eliminated slot expiration for the majority of users while still allowing scheduling.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-4.png" alt="Key Design Decision 4" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">4 of 8</span>
+              <p class="cs-carousel-card-title">15-Minute Grace Range</p>
+              <div class="cs-carousel-card-text">
+                <p>Customer care data and app store reviews showed frustration when orders weren’t ready exactly at the stated 12:15 PM pickup time.</p>
+                <p>While I couldn’t solve in-store fulfillment, I improved expectations through UX by introducing a 15-minute pickup window. Instead of a single time, customers now see a range (e.g., 12:15–12:30 PM). 
+                <p>This was applied to both scheduled orders and the default “30–45 minutes after checkout” flow, aligning with QSR patterns and reducing disappointment at pickup.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-5.png" alt="Key Design Decision 5" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">5 of 8</span>
+              <p class="cs-carousel-card-title">De-Emphasizing Pay In-Store</p>
+              <div class="cs-carousel-card-text">
+                <p>Unpaid, uncollected orders were creating operational waste, so we made it a goal to increase pay-online adoption.</p>
+                <p>I nested “Pay in store” and positioned Apple Pay as the default. Due to stakeholder hesitation, we usability-tested both versions—results showed customers could still find the option just as easily, giving us confidence to move forward.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-6.png" alt="Key Design Decision 6" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">6 of 8</span>
+              <p class="cs-carousel-card-title">Validating the Redesign Through Usability Testing</p>
+              <div class="cs-carousel-card-text">
+                <p>Before moving forward with such a significant change, we validated the redesigned checkout against the current experience through usability testing.</p>
+                <p>The new version performed slightly better in speed, ease, and overall preference, while also revealing strengths in the existing flow—leading the next iteration to combine the simplicity of the new design with the clarity of the original through an accordion-based layout.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-7.png" alt="Key Design Decision 7" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">7 of 8</span>
+              <p class="cs-carousel-card-title">Flexible, Non-Linear Checkout</p>
+              <div class="cs-carousel-card-text">
+                <p>Using insights from the previous test—where some users preferred a structured, step-by-step flow—I tested a step-locked experience against a prefilled, review-first approach.</p>
+                <p>The flexible version performed better in speed, ease, and preference, validating a shift away from forced progression and toward our 1-click checkout vision.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cs-carousel-card">
+            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-8.png" alt="Key Design Decision 8" /></div>
+            <div class="cs-carousel-card-body">
+              <span class="cs-carousel-tag">8 of 8</span>
+              <p class="cs-carousel-card-title">Store Confirmation Tradeoff</p>
+              <div class="cs-carousel-card-text">
+                <p>Although a 1-click checkout was validated via UserTesting, 20% of customers change their store during checkout, and this is currently the only confirmation point. Removing it risked misrouted orders and profit loss.</p>
+                <p>To address this, we plan to A/B test moving store confirmation earlier in the journey—validating the impact before removing it from checkout.</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /track -->
+      </div><!-- /wrap -->
     </section>
-
   </div>
 
-  <!-- Wave Divider -->
-  <div class="wave-divider">
-    <img src="divider-purple.png" alt="" aria-hidden="true" />
-  </div>
+  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
 
+  <!-- Results -->
   <div class="container">
-
-    <!-- Results -->
     <section class="cs-section">
-      <h2 class="cs-section-title">Results &amp; Reflections</h2>
-      <p class="cs-body-text">Summary of outcomes — what shipped, what improved, what you'd do differently.</p>
+      <div class="cs-section-title">
+        <div class="cs-section-icon">🚀</div>
+        <h2>Results</h2>
+      </div>
+      <div class="cs-inner">
+        <div class="cs-results-grid">
+          <div class="cs-stat-card green-light">
+            <span class="cs-stat-icon">⚡</span>
+            <p class="cs-stat-label">Express Single-Item Purchase Adoption</p>
+            <div><p class="cs-stat-value">28%</p><p class="cs-stat-desc">of sub orders now use express</p></div>
+          </div>
+          <div class="cs-stat-card green-dark">
+            <span class="cs-stat-icon">⏱️</span>
+            <p class="cs-stat-label">Checkout Time</p>
+            <div><p class="cs-stat-value">-2min</p><p class="cs-stat-desc">Reduced completion time</p></div>
+          </div>
+          <div class="cs-stat-card green-light">
+            <span class="cs-stat-icon">💳</span>
+            <p class="cs-stat-label">Pay-Online Adoption</p>
+            <div><p class="cs-stat-value">43% → 65%</p><p class="cs-stat-desc">Significant increase</p></div>
+          </div>
+        </div>
+        <p class="cs-body">After delivering the Apple Pay launch, I partnered with the PM to define two follow-up initiatives that addressed both immediate wins and structural issues. Both were approved by leadership.</p>
+      </div>
+    </section>
+  </div>
 
-      <div class="cs-two-col">
-        <div>
-          <p class="cs-text-block-title">Results</p>
-          <ul class="cs-list">
-            <li>Outcome or metric #1</li>
-            <li>Outcome or metric #2</li>
-            <li>Outcome or metric #3</li>
+  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <!-- Reflections -->
+  <div class="container">
+    <section class="cs-section">
+      <div class="cs-section-title">
+        <div class="cs-section-icon">💭</div>
+        <h2>Reflections</h2>
+      </div>
+      <div class="cs-inner">
+        <p class="cs-body">While impactful, releasing multiple changes at once limited our ability to isolate cause and effect.</p>
+        <div class="cs-reflections-box">
+          <h3>What I'd Do Differently</h3>
+          <ul>
+            <li>A more staged rollout with focused A/B testing</li>
+            <li>Clearer performance attribution across initiatives</li>
+            <li>Stronger decision validation through isolated testing</li>
           </ul>
         </div>
-        <div>
-          <p class="cs-text-block-title">Reflections</p>
-          <p class="cs-text-block-body">What you learned. What you'd approach differently. How this shaped how you work now. Keep it honest and specific.</p>
-        </div>
       </div>
-
     </section>
+  </div>
 
-    <!-- Back link -->
-    <div style="padding: 1rem 0 3rem;">
-      <a href="index.html" class="back-link">← Back to all case studies</a>
+  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <div class="container">
+    <div style="padding: 2rem 0 5rem;">
+      <a href="index.html" style="font-size:13px;font-weight:500;color:var(--purple);text-decoration:underline;text-underline-offset:2px;">← Back to portfolio</a>
     </div>
-
   </div>
 
-  <!-- Wave Divider -->
-  <div class="wave-divider">
-    <img src="divider-purple.png" alt="" aria-hidden="true" />
-  </div>
+  <script>
+    const track = document.getElementById('carousel-track');
+    const counter = document.getElementById('carousel-counter');
+    const cards = track.querySelectorAll('.cs-carousel-card');
+    const total = cards.length;
+    let current = 0;
+
+    function getCardWidth() {
+      if (cards[0]) {
+        const style = getComputedStyle(cards[0]);
+        return cards[0].offsetWidth + parseInt(style.marginRight || 0) + 32; // 32 = gap
+      }
+      return 0;
+    }
+
+    function updateCarousel() {
+      const w = getCardWidth();
+      track.style.transform = `translateX(-${current * w}px)`;
+      counter.textContent = `${current + 1} of ${total}`;
+    }
+
+    function moveCarousel(dir) {
+      current = Math.max(0, Math.min(total - 1, current + dir));
+      updateCarousel();
+    }
+
+    // Recalculate on resize
+    window.addEventListener('resize', updateCarousel);
+  </script>
 
 </body>
 </html>

@@ -25,7 +25,7 @@
       --green-border: rgba(0,117,62,0.3);
       --font-display: 'Playfair Display', Georgia, serif;
       --font-body:    'Montserrat', sans-serif;
-      --content-width: 960px;
+      --content-width: 1024px;
     }
 
     html { scroll-behavior: smooth; }
@@ -247,7 +247,10 @@
     .cs-carousel-track-wrap {
       width: 100%;
       padding: 0;
-      overflow-x: auto;
+      overflow-x: hidden;
+      overflow-y: visible;
+      padding: 0;
+      overflow-x: hidden;
       overflow-y: visible;
     }
 
@@ -265,8 +268,7 @@
       border-radius: 8px;
       overflow: hidden;
       flex-shrink: 0;
-        width: 80%;
-        max-width: 700px;
+      width: 88%;
       min-width: 0;
       display: flex;
       flex-direction: column;
@@ -418,7 +420,7 @@
 
   </div>
 
-  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
   <!-- Context & Challenge -->
   <div class="container">
@@ -481,6 +483,9 @@
       </div>
       <div class="cs-inner">
         <p class="cs-body">After delivering the Apple Pay launch, I partnered with the PM to define two follow-up initiatives that addressed both immediate wins and structural issues. Both were approved by leadership.</p>
+        <div class="cs-full-image" style="max-width:960px;margin:0 auto 2rem;">
+          <img src="images/checkout-solution.png" alt="Solution screens" style="max-width:100%;height:auto;display:block;margin:0 auto;" />
+        </div>
         <div class="cs-solution-grid">
           <div class="cs-solution-card green-light">
             <div>
@@ -504,35 +509,32 @@
             </div>
           </div>
         </div>
-        <div class="cs-full-image">
-          <img src="images/checkout-solution.png" alt="Solution screens" />
-        </div>
       </div>
     </section>
   </div>
 
-  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
   <!-- Key Design Decisions — Carousel -->
   <div class="container">
     <section class="cs-section">
-      <div class="cs-section-title" style="padding: 0;">
+      <div class="cs-section-title">
         <div class="cs-section-icon">🔑</div>
         <h2>Key Design Decisions</h2>
       </div>
-
-      <!-- Counter + nav buttons -->
-      <div class="cs-carousel-header">
-        <span class="cs-carousel-counter" id="carousel-counter">1 of 8</span>
-        <div class="cs-carousel-buttons">
-          <button class="cs-carousel-btn" id="prev-btn" aria-label="Previous" onclick="moveCarousel(-1)">←</button>
-          <button class="cs-carousel-btn" id="next-btn" aria-label="Next" onclick="moveCarousel(1)">→</button>
+      <div class="cs-inner">
+        <!-- Counter + nav buttons -->
+        <div class="cs-carousel-header">
+          <span class="cs-carousel-counter" id="carousel-counter">1 of 8</span>
+          <div class="cs-carousel-buttons">
+            <button class="cs-carousel-btn" id="prev-btn" aria-label="Previous" onclick="moveCarousel(-1)">←</button>
+            <button class="cs-carousel-btn" id="next-btn" aria-label="Next" onclick="moveCarousel(1)">→</button>
+          </div>
         </div>
-      </div>
 
-      <!-- Scrollable track -->
-      <div class="cs-carousel-track-wrap">
-        <div class="cs-carousel-track" id="carousel-track">
+        <!-- Scrollable track -->
+        <div class="cs-carousel-track-wrap">
+          <div class="cs-carousel-track" id="carousel-track">
 
           <div class="cs-carousel-card">
             <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-1.png" alt="Key Design Decision 1" /></div>

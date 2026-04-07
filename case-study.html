@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accelerated Checkout — Smashley's Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Variables ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #5B3FA6;
+      --purple-light: #EDE8F8;
+      --purple-mid:   #8B6FCB;
+      --ink:          #1A1A1A;
+      --ink-soft:     #444;
+      --ink-muted:    #777;
+      --bg:           #FFFFFF;
+      --card-bg:      #F3EFFC;
+      --border:       #E0D9F5;
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Montserrat', sans-serif;
+
+      --content-width: 960px;
+      --text-measure: 65ch;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ────────────────────────────────────────────────── */
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Nav ───────────────────────────────────────────────────── */
+    nav {
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: var(--content-width);
+      margin: 0 auto;
+    }
+
+    .nav-logo { width: 48px; height: 48px; }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--purple); }
+
+    /* ── Back Link ─────────────────────────────────────────────── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--purple);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      margin-bottom: 2rem;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    /* ── Case Study Hero ───────────────────────────────────────── */
+    .cs-hero {
+      padding: 2rem 0 1.5rem;
+    }
+
+    .cs-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 900;
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+      max-width: var(--text-measure);
+    }
+
+    .cs-hero-intro {
+      font-size: 15px;
+      color: var(--ink-soft);
+      max-width: var(--text-measure);
+      margin-bottom: 2rem;
+    }
+
+    .cs-hero-image {
+      width: 100%;
+      border-radius: 10px;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a5c3a 0%, #2d7a50 100%);
+      aspect-ratio: 16 / 7;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .cs-hero-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── Wave Divider ──────────────────────────────────────────── */
+    .wave-divider {
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+      padding: 0.5rem 0;
+    }
+
+    .wave-divider img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ── Body Text ─────────────────────────────────────────────── */
+    .cs-body-text {
+      max-width: var(--text-measure);
+      color: var(--ink-soft);
+      font-size: 15px;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Section Headings ──────────────────────────────────────── */
+    .cs-section {
+      padding: 2rem 0;
+    }
+
+    .cs-section-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1rem;
+      max-width: var(--text-measure);
+    }
+
+    .cs-section-subtitle {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.1rem;
+      color: var(--purple);
+      margin-bottom: 0.75rem;
+    }
+
+    /* ── Two-Column Layout ─────────────────────────────────────── */
+    .cs-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+      margin: 1.5rem 0;
+    }
+
+    .cs-two-col.image-right { }
+    .cs-two-col.image-left  { }
+
+    .cs-two-col img,
+    .cs-two-col .img-placeholder {
+      width: 100%;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #1a5c3a 0%, #2d7a50 100%);
+      aspect-ratio: 4 / 3;
+      display: block;
+    }
+
+    .cs-two-col img { object-fit: cover; }
+
+    /* ── Bullet List ───────────────────────────────────────────── */
+    .cs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 1.5rem;
+      max-width: var(--text-measure);
+    }
+
+    .cs-list li {
+      position: relative;
+      padding-left: 1.25rem;
+      font-size: 14px;
+      color: var(--ink-soft);
+      margin-bottom: 0.5rem;
+      line-height: 1.65;
+    }
+
+    .cs-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--purple);
+      font-size: 12px;
+      top: 2px;
+    }
+
+    /* ── Callout Cards (Results) ───────────────────────────────── */
+    .cs-callout-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .cs-callout {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .cs-callout-label {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--purple-mid);
+      margin-bottom: 0.4rem;
+    }
+
+    .cs-callout-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .cs-callout-desc {
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.5;
+    }
+
+    /* ── Two-col text blocks (Proposals, etc.) ─────────────────── */
+    .cs-text-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 1rem 0 1.5rem;
+    }
+
+    .cs-text-block-title {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .cs-text-block-body {
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ── Animations ────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .cs-hero h1 { animation: fadeUp 0.5s ease both; }
+    .cs-hero-intro { animation: fadeUp 0.5s ease 0.1s both; }
+    .cs-hero-image { animation: fadeUp 0.5s ease 0.2s both; }
+
+    /* ── Responsive ────────────────────────────────────────────── */
+    @media (max-width: 680px) {
+      .cs-two-col     { grid-template-columns: 1fr; }
+      .cs-text-grid   { grid-template-columns: 1fr; }
+      .cs-callout-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html">
+      <img src="S-logomark-nobg.png" class="nav-logo" alt="Smashley logo" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#work">Work</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="resume.pdf">Resume</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+
+    <a href="index.html" class="back-link">← Back to portfolio</a>
+
+    <!-- Case Study Hero -->
+    <section class="cs-hero">
+      <h1>Accelerated Checkout</h1>
+      <p class="cs-hero-intro">
+        Redesigning the Publix app checkout flow to reduce friction, increase cart conversion, and help customers complete their orders faster.
+      </p>
+      <div class="cs-hero-image">
+        <!-- Replace src with your actual hero image -->
+        <!-- <img src="images/checkout-hero.png" alt="Accelerated Checkout" /> -->
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Wave Divider -->
+  <div class="wave-divider">
+    <img src="divider-purple.png" alt="" aria-hidden="true" />
+  </div>
+
+  <div class="container">
+
+    <!-- How it all started -->
+    <section class="cs-section">
+      <h2 class="cs-section-title">How it all started</h2>
+      <p class="cs-body-text">
+        A brief description of the project origin — what triggered the work, who was involved, and what the team set out to solve. Replace this with the actual content from your Notion page.
+      </p>
+      <div class="cs-two-col image-right">
+        <div>
+          <p class="cs-body-text">Additional context, background research, or early observations. Keep body text to 65 characters per line max — the <code>max-width: 65ch</code> rule handles this automatically.</p>
+        </div>
+        <div class="img-placeholder"></div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Wave Divider -->
+  <div class="wave-divider">
+    <img src="divider-purple.png" alt="" aria-hidden="true" />
+  </div>
+
+  <div class="container">
+
+    <!-- The Challenge -->
+    <section class="cs-section">
+      <h2 class="cs-section-title">The Challenge</h2>
+      <p class="cs-body-text">Describe the core problem. What was broken, slow, or frustrating? What data or user research surfaced it?</p>
+      <ul class="cs-list">
+        <li>Key insight or constraint #1</li>
+        <li>Key insight or constraint #2</li>
+        <li>Key insight or constraint #3</li>
+      </ul>
+      <div class="cs-two-col">
+        <div class="img-placeholder"></div>
+        <div>
+          <p class="cs-body-text">Supporting context or competitive analysis notes. Keep each paragraph focused on one idea.</p>
+          <p class="cs-body-text">Second point or supporting detail. Use bullet lists for scannable takeaways above.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Wave Divider -->
+  <div class="wave-divider">
+    <img src="divider-purple.png" alt="" aria-hidden="true" />
+  </div>
+
+  <div class="container">
+
+    <!-- Two Project Proposals -->
+    <section class="cs-section">
+      <h2 class="cs-section-title">Two Project Proposals</h2>
+      <p class="cs-body-text">Brief framing of the two directions explored before committing to a solution path.</p>
+      <div class="cs-text-grid">
+        <div>
+          <p class="cs-text-block-title">01 Option one name here</p>
+          <p class="cs-text-block-body">Description of the first proposal — approach, rationale, tradeoffs. Keep it concise and focused on why it was considered.</p>
+        </div>
+        <div>
+          <p class="cs-text-block-title">02 Option two name here</p>
+          <p class="cs-text-block-body">Description of the second proposal. Explain what differentiated it from option one and why it was ultimately chosen (or not).</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Wave Divider -->
+  <div class="wave-divider">
+    <img src="divider-purple.png" alt="" aria-hidden="true" />
+  </div>
+
+  <div class="container">
+
+    <!-- Key Design Decisions -->
+    <section class="cs-section">
+      <h2 class="cs-section-title">Key Design Decisions</h2>
+      <p class="cs-body-text">Intro sentence framing the section — what kinds of decisions are documented here and why they mattered.</p>
+
+      <!-- Decision 1 -->
+      <div class="cs-two-col">
+        <div>
+          <p class="cs-section-subtitle">Design decision #1</p>
+          <p class="cs-body-text">Explain the decision, the options considered, and the rationale. Focus on what you learned and how it shaped the design.</p>
+        </div>
+        <div class="img-placeholder"></div>
+      </div>
+
+      <!-- Decision 2 -->
+      <div class="cs-two-col image-left">
+        <div class="img-placeholder"></div>
+        <div>
+          <p class="cs-section-subtitle">Design decision #2</p>
+          <p class="cs-body-text">Another key decision — this time image on the left. Alternate image position to add visual rhythm to the page.</p>
+        </div>
+      </div>
+
+      <!-- Decision 3 -->
+      <div class="cs-two-col">
+        <div>
+          <p class="cs-section-subtitle">Design decision #3</p>
+          <p class="cs-body-text">Keep adding decision blocks as needed. Each one should be specific — avoid generic design talk and focus on the actual tradeoffs you made.</p>
+        </div>
+        <div class="img-placeholder"></div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Wave Divider -->
+  <div class="wave-divider">
+    <img src="divider-purple.png" alt="" aria-hidden="true" />
+  </div>
+
+  <div class="container">
+
+    <!-- Results -->
+    <section class="cs-section">
+      <h2 class="cs-section-title">Results &amp; Reflections</h2>
+      <p class="cs-body-text">Summary of outcomes — what shipped, what improved, what you'd do differently.</p>
+
+      <div class="cs-two-col">
+        <div>
+          <p class="cs-text-block-title">Results</p>
+          <ul class="cs-list">
+            <li>Outcome or metric #1</li>
+            <li>Outcome or metric #2</li>
+            <li>Outcome or metric #3</li>
+          </ul>
+        </div>
+        <div>
+          <p class="cs-text-block-title">Reflections</p>
+          <p class="cs-text-block-body">What you learned. What you'd approach differently. How this shaped how you work now. Keep it honest and specific.</p>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Back link -->
+    <div style="padding: 1rem 0 3rem;">
+      <a href="index.html" class="back-link">← Back to all case studies</a>
+    </div>
+
+  </div>
+
+  <!-- Wave Divider -->
+  <div class="wave-divider">
+    <img src="divider-purple.png" alt="" aria-hidden="true" />
+  </div>
+
+</body>
+</html>

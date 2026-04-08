@@ -515,131 +515,418 @@
 
   <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
-  <!-- Key Design Decisions — Carousel -->
-  <div class="container">
-    <section class="cs-section">
-      <div class="cs-section-title">
-        <div class="cs-section-icon">🔑</div>
-        <h2>Key Design Decisions</h2>
-      </div>
-      <div class="cs-inner">
-        <!-- Counter + nav buttons -->
-        <div class="cs-carousel-header">
-          <span class="cs-carousel-counter" id="carousel-counter">1 of 8</span>
-          <div class="cs-carousel-buttons">
-            <button class="cs-carousel-btn" id="prev-btn" aria-label="Previous" onclick="moveCarousel(-1)">←</button>
-            <button class="cs-carousel-btn" id="next-btn" aria-label="Next" onclick="moveCarousel(1)">→</button>
+
+
+    <!-- New Carousel (Carousel #2) -->
+    <div class="container">
+      <section class="cs-section">
+        <div class="cs-section-title">
+          <div class="cs-section-icon">🔑</div>
+          <h2>Key Design Decisions</h2>
+        </div>
+        <div class="custom-carousel">
+          <div class="custom-carousel-arrow custom-carousel-arrow-left" onclick="moveCustomCarousel(-1)" aria-label="Previous">
+            <span>←</span>
+          </div>
+          <div class="custom-carousel-counter" id="custom-carousel-counter">1 of 8</div>
+          <div class="custom-carousel-content">
+            <div class="custom-carousel-track" id="custom-carousel-track">
+              <!-- Cards will be rendered here by JS -->
+            </div>
+          </div>
+          <div class="custom-carousel-arrow custom-carousel-arrow-right" onclick="moveCustomCarousel(1)" aria-label="Next">
+            <span>→</span>
           </div>
         </div>
+      </section>
+    </div>
 
-        <!-- Scrollable track -->
-        <div class="cs-carousel-track-wrap">
-          <div class="cs-carousel-track" id="carousel-track">
+    <style>
+      .custom-carousel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        position: relative;
+        margin: 0rem 2rem;
+        min-height: 400px;
+      }
+      .custom-carousel-arrow {
+        background: #7c4d99;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        z-index: 2;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        aspect-ratio: 1 / 1;
+        padding: 0;
+      }
+      .custom-carousel-arrow.disabled {
+        display: none !important;
+      }
+      .custom-carousel-arrow:hover {
+        background: #a673b4;
+      }
+      .custom-carousel-arrow-left {
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .custom-carousel-arrow-right {
+        position: absolute;
+        right: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .custom-carousel-content {
+        margin: 0 auto;
+        width: 100%;
+        background: var(--bg-light);
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(124,77,153,0.06);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 1rem;
+        position: relative;
+        min-height: 340px;
+        overflow: hidden;
+      }
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-1.png" alt="Key Design Decision 1" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">1 of 8</span>
-              <p class="cs-carousel-card-title">Required Intermediary Step</p>
-              <div class="cs-carousel-card-text">
-                <p>Apple Pay could not capture required order details (store, time, contact info).</p>
-                <p>I introduced a lightweight intermediary step before triggering Apple Pay—ensuring all required inputs were captured without breaking flow. This constraint became a design opportunity.</p>
-              </div>
-            </div>
-          </div>
+      .custom-carousel-track {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+        position: relative;
+      }
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-2.png" alt="Key Design Decision 2" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">2 of 8</span>
-              <p class="cs-carousel-card-title">Unified Pattern Across Both Projects</p>
-              <div class="cs-carousel-card-text">
-                <p>The intermediary step mirrored core checkout actions (store, time, etc.), revealing an opportunity to unify both experiences.</p>
-                <p>We consolidated into a single reusable pattern that improved consistency, reduced engineering complexity, and enabled parallel development.</p>
-              </div>
-            </div>
-          </div>
+      .custom-carousel-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 2.5rem;
+        min-width: 90%;
+        max-width: 420px;
+        background: transparent;
+        box-shadow: none;
+        opacity: 1;
+        z-index: 2;
+        transition: filter 0.4s, opacity 0.4s, transform 0.5s;
+      }
+      /* .custom-carousel-card.side { removed: no side cards anymore } */
+      .custom-carousel-card.hidden {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+        z-index: 0;
+      }
+      .custom-carousel-counter {
+        position: absolute;
+        top: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #7c4d99;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 2px 12px;
+        border-radius: 8px;
+        z-index: 1;
+      }
+      .custom-carousel-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
+      }
+      .custom-carousel-image {
+        width: 100%;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        background: none;
+      }
+      .custom-carousel-card-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #2d1a36;
+        margin-bottom: 0.5rem;
+        text-align: left;
+        width: 100%;
+        padding-left: 1.5rem;
+      }
+      .custom-carousel-card-text {
+        font-size: 1rem;
+        color: var(--ink-soft);
+        text-align: left;
+        opacity: 1;
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-bottom: 1rem;
+        transition: opacity 0.4s;
+      }
+      /* .custom-carousel-card.side .custom-carousel-card-text { removed: no side cards anymore } */
+            .custom-carousel-dots {
+              display: flex;
+              justify-content: center;
+              gap: 0.5rem;
+              margin-top: 1.5rem;
+              margin-bottom: 0.5rem;
+            }
+            .custom-carousel-dot {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: #d1c6e0;
+              display: inline-block;
+              transition: background 0.2s, transform 0.2s;
+              cursor: pointer;
+            }
+            .custom-carousel-dot.active {
+              background: #7c4d99;
+              transform: scale(1.25);
+            }
+      @media (max-width: 600px) {
+        .custom-carousel {
+          margin: 0rem 0rem;
+        }
+        .cs-inner {
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .custom-carousel-content {
+          padding: 0.5rem 1rem 1rem 1rem;
+          min-height: 320px;
+        }
+        .custom-carousel-image {
+          max-width: 95vw;
+          aspect-ratio: 16 / 10;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .custom-carousel-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          aspect-ratio: 16 / 10;
+          display: block;
+        }
+        .custom-carousel-arrow {
+          width: 32px;
+          height: 32px;
+          font-size: 1.5rem;
+        }
+        .custom-carousel-arrow-left {
+          left: -1rem;
+        }
+        .custom-carousel-arrow-right {
+          right: -1rem;
+        }
+        .custom-carousel-card-title, .custom-carousel-card-text {
+          padding-left: 0.5rem;
+        }
+      }
+    </style>
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-3.png" alt="Key Design Decision 3" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">3 of 8</span>
-              <p class="cs-carousel-card-title">Flexible Pickup Windows</p>
-              <div class="cs-carousel-card-text">
-                <p>Customers selected an exact pickup time (e.g., 2:30 PM), which reserved a pickup slot before checkout submission. 60% chose the earliest option, but since checkout took 5–10 minutes, that slot often expired—triggering an error on submission and forcing them to restart. This was a primary driver of drop-off at the final step.</p>
-                <p>I replaced this with a flexible default: “30–45 minutes after checkout.”</p>
-                <p>By assigning the pickup time after checkout, we eliminated slot expiration for the majority of users while still allowing scheduling.</p>
-              </div>
-            </div>
-          </div>
+    <script>
+      // Carousel #2 logic with animation and blurred previews
+      const customCarouselData = [
+        {
+          title: 'Required Intermediary Step',
+          text: 'Apple Pay could not capture required order details (store, time, contact info). I introduced a lightweight intermediary step before triggering Apple Pay—ensuring all required inputs were captured without breaking flow. This constraint became a design opportunity.',
+          img: 'images/checkout-key-desicion-1.png'
+        },
+        {
+          title: 'Unified Pattern Across Both Projects',
+          text: 'The intermediary step mirrored core checkout actions (store, time, etc.), revealing an opportunity to unify both experiences. We consolidated into a single reusable pattern that improved consistency, reduced engineering complexity, and enabled parallel development.',
+          img: 'images/checkout-key-desicion-2.png'
+        },
+        {
+          title: 'Flexible Pickup Windows',
+          text: 'Customers selected an exact pickup time (e.g., 2:30 PM), which reserved a pickup slot before checkout submission. 60% chose the earliest option, but since checkout took 5–10 minutes, that slot often expired—triggering an error on submission and forcing them to restart. This was a primary driver of drop-off at the final step. I replaced this with a flexible default: “30–45 minutes after checkout.” By assigning the pickup time after checkout, we eliminated slot expiration for the majority of users while still allowing scheduling.',
+          img: 'images/checkout-key-desicion-3.png'
+        },
+        {
+          title: '15-Minute Grace Range',
+          text: 'Customer care data and app store reviews showed frustration when orders weren’t ready exactly at the stated 12:15 PM pickup time. While I couldn’t solve in-store fulfillment, I improved expectations through UX by introducing a 15-minute pickup window. Instead of a single time, customers now see a range (e.g., 12:15–12:30 PM). This was applied to both scheduled orders and the default “30–45 minutes after checkout” flow, aligning with QSR patterns and reducing disappointment at pickup.',
+          img: 'images/checkout-key-desicion-4.png'
+        },
+        {
+          title: 'De-Emphasizing Pay In-Store',
+          text: 'Unpaid, uncollected orders were creating operational waste, so we made it a goal to increase pay-online adoption. I nested “Pay in store” and positioned Apple Pay as the default. Due to stakeholder hesitation, we usability-tested both versions—results showed customers could still find the option just as easily, giving us confidence to move forward.',
+          img: 'images/checkout-key-desicion-5.png'
+        },
+        {
+          title: 'Validating the Redesign Through Usability Testing',
+          text: 'Before moving forward with such a significant change, we validated the redesigned checkout against the current experience through usability testing. The new version performed slightly better in speed, ease, and overall preference, while also revealing strengths in the existing flow—leading the next iteration to combine the simplicity of the new design with the clarity of the original through an accordion-based layout.',
+          img: 'images/checkout-key-desicion-6.png'
+        },
+        {
+          title: 'Flexible, Non-Linear Checkout',
+          text: 'Using insights from the previous test—where some users preferred a structured, step-by-step flow—I tested a step-locked experience against a prefilled, review-first approach. The flexible version performed better in speed, ease, and preference, validating a shift away from forced progression and toward our 1-click checkout vision.',
+          img: 'images/checkout-key-desicion-7.png'
+        },
+        {
+          title: 'Store Confirmation Tradeoff',
+          text: 'Although a 1-click checkout was validated via UserTesting, 20% of customers change their store during checkout, and this is currently the only confirmation point. Removing it risked misrouted orders and profit loss. To address this, we plan to A/B test moving store confirmation earlier in the journey—validating the impact before removing it from checkout.',
+          img: 'images/checkout-key-desicion-8.png'
+        }
+      ];
+      let customCurrent = 0;
+      let customIsAnimating = false;
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-4.png" alt="Key Design Decision 4" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">4 of 8</span>
-              <p class="cs-carousel-card-title">15-Minute Grace Range</p>
-              <div class="cs-carousel-card-text">
-                <p>Customer care data and app store reviews showed frustration when orders weren’t ready exactly at the stated 12:15 PM pickup time.</p>
-                <p>While I couldn’t solve in-store fulfillment, I improved expectations through UX by introducing a 15-minute pickup window. Instead of a single time, customers now see a range (e.g., 12:15–12:30 PM). 
-                <p>This was applied to both scheduled orders and the default “30–45 minutes after checkout” flow, aligning with QSR patterns and reducing disappointment at pickup.</p>
-              </div>
-            </div>
-          </div>
+      function renderCustomCarousel() {
+        const track = document.getElementById('custom-carousel-track');
+        if (!track) return;
+        // Clear
+        track.innerHTML = '';
+        // Only render the current card
+        track.appendChild(createCustomCard(customCarouselData[customCurrent], 'center'));
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-5.png" alt="Key Design Decision 5" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">5 of 8</span>
-              <p class="cs-carousel-card-title">De-Emphasizing Pay In-Store</p>
-              <div class="cs-carousel-card-text">
-                <p>Unpaid, uncollected orders were creating operational waste, so we made it a goal to increase pay-online adoption.</p>
-                <p>I nested “Pay in store” and positioned Apple Pay as the default. Due to stakeholder hesitation, we usability-tested both versions—results showed customers could still find the option just as easily, giving us confidence to move forward.</p>
-              </div>
-            </div>
-          </div>
+        // Center the track
+        track.style.justifyContent = 'center';
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-6.png" alt="Key Design Decision 6" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">6 of 8</span>
-              <p class="cs-carousel-card-title">Validating the Redesign Through Usability Testing</p>
-              <div class="cs-carousel-card-text">
-                <p>Before moving forward with such a significant change, we validated the redesigned checkout against the current experience through usability testing.</p>
-                <p>The new version performed slightly better in speed, ease, and overall preference, while also revealing strengths in the existing flow—leading the next iteration to combine the simplicity of the new design with the clarity of the original through an accordion-based layout.</p>
-              </div>
-            </div>
-          </div>
+        // Disable/enable arrows
+        const leftArrow = document.querySelector('.custom-carousel-arrow-left');
+        const rightArrow = document.querySelector('.custom-carousel-arrow-right');
+        if (leftArrow) {
+          if (customCurrent === 0) {
+            leftArrow.classList.add('disabled');
+            leftArrow.setAttribute('disabled', 'disabled');
+          } else {
+            leftArrow.classList.remove('disabled');
+            leftArrow.removeAttribute('disabled');
+          }
+        }
+        if (rightArrow) {
+          if (customCurrent === customCarouselData.length - 1) {
+            rightArrow.classList.add('disabled');
+            rightArrow.setAttribute('disabled', 'disabled');
+          } else {
+            rightArrow.classList.remove('disabled');
+            rightArrow.removeAttribute('disabled');
+          }
+        }
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-7.png" alt="Key Design Decision 7" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">7 of 8</span>
-              <p class="cs-carousel-card-title">Flexible, Non-Linear Checkout</p>
-              <div class="cs-carousel-card-text">
-                <p>Using insights from the previous test—where some users preferred a structured, step-by-step flow—I tested a step-locked experience against a prefilled, review-first approach.</p>
-                <p>The flexible version performed better in speed, ease, and preference, validating a shift away from forced progression and toward our 1-click checkout vision.</p>
-              </div>
-            </div>
-          </div>
+        // Render pagination dots
+        let dots = document.getElementById('custom-carousel-dots');
+        if (!dots) {
+          dots = document.createElement('div');
+          dots.id = 'custom-carousel-dots';
+          dots.className = 'custom-carousel-dots';
+          track.parentElement.appendChild(dots);
+        }
+        dots.innerHTML = '';
+        for (let i = 0; i < customCarouselData.length; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'custom-carousel-dot' + (i === customCurrent ? ' active' : '');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.onclick = () => {
+            if (customIsAnimating || i === customCurrent) return;
+            customCurrent = i;
+            updateCustomCarousel(0);
+          };
+          dots.appendChild(dot);
+        }
+      }
 
-          <div class="cs-carousel-card">
-            <div class="cs-carousel-card-image"><img src="images/checkout-key-desicion-8.png" alt="Key Design Decision 8" /></div>
-            <div class="cs-carousel-card-body">
-              <span class="cs-carousel-tag">8 of 8</span>
-              <p class="cs-carousel-card-title">Store Confirmation Tradeoff</p>
-              <div class="cs-carousel-card-text">
-                <p>Although a 1-click checkout was validated via UserTesting, 20% of customers change their store during checkout, and this is currently the only confirmation point. Removing it risked misrouted orders and profit loss.</p>
-                <p>To address this, we plan to A/B test moving store confirmation earlier in the journey—validating the impact before removing it from checkout.</p>
-              </div>
-            </div>
-          </div>
+      function createCustomCard(data, pos) {
+        const card = document.createElement('div');
+        card.className = 'custom-carousel-card' + (pos ? ' ' + pos : '');
+        const imgDiv = document.createElement('div');
+        imgDiv.className = 'custom-carousel-image';
+        const img = document.createElement('img');
+        img.src = data.img;
+        img.alt = 'Placeholder';
+        img.style.width = '100%';
+        // No fixed height, object-fit, or opacity
+        imgDiv.appendChild(img);
+        card.appendChild(imgDiv);
+        const title = document.createElement('div');
+        title.className = 'custom-carousel-card-title';
+        title.textContent = data.title;
+        card.appendChild(title);
+        const text = document.createElement('div');
+        text.className = 'custom-carousel-card-text';
+        text.textContent = data.text;
+        card.appendChild(text);
+        return card;
+      }
 
-        </div><!-- /track -->
-      </div><!-- /wrap -->
-    </section>
-  </div>
+      function updateCustomCarousel(animateDir = 0) {
+        const counter = document.getElementById('custom-carousel-counter');
+        counter.textContent = `${customCurrent + 1} of ${customCarouselData.length}`;
+        const track = document.getElementById('custom-carousel-track');
+        if (!track) return;
 
-  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+        if (animateDir !== 0) {
+          if (customIsAnimating) return;
+          customIsAnimating = true;
+          // Animate slide
+          track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+          track.style.transform = `translateX(${animateDir * -100}%)`;
+          setTimeout(() => {
+            // Reset
+            renderCustomCarousel();
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${animateDir * 100}%)`;
+            setTimeout(() => {
+              track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+              track.style.transform = 'translateX(0)';
+              setTimeout(() => {
+                track.style.transition = '';
+                customIsAnimating = false;
+              }, 500);
+            }, 30);
+          }, 500);
+        } else {
+          renderCustomCarousel();
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(0)';
+        }
+      }
+
+      function moveCustomCarousel(dir) {
+        if (customIsAnimating) return;
+        const newIdx = customCurrent + dir;
+        if (newIdx < 0 || newIdx >= customCarouselData.length) return;
+        updateCustomCarousel(dir);
+        setTimeout(() => {
+          customCurrent = newIdx;
+          updateCustomCarousel(0);
+        }, 500);
+      }
+
+      // Initialize on DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', function() {
+        renderCustomCarousel();
+        updateCustomCarousel(0);
+      });
+    </script>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
   <!-- Results -->
   <div class="container">
@@ -671,7 +958,7 @@
     </section>
   </div>
 
-  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
   <!-- Reflections -->
   <div class="container">
@@ -694,7 +981,7 @@
     </section>
   </div>
 
-  <div class="wave-divider"><img src="divider-purple.png" alt="" aria-hidden="true" /></div>
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
   <div class="container">
     <div style="padding: 2rem 0 5rem;">

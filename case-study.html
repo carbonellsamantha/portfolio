@@ -870,7 +870,7 @@
         card.appendChild(title);
         const text = document.createElement('div');
         text.className = 'custom-carousel-card-text';
-        text.textContent = data.text;
+        text.innerHTML = data.text;
         card.appendChild(text);
         return card;
       }

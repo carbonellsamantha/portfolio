@@ -446,11 +446,15 @@
         <h2>Context &amp; Challenge</h2>
       </div>
       <div class="cs-inner">
-        <p class="cs-body">This project began without Product or UX involvement. By the time our team was brought in, leadership had already approved adding an AI tool to the Publix app—based on an existing tool built for store associates.</p>
-        <p class="cs-body">Our “kickoff” consisted of a 2-minute screen recording of the associate-facing tool, with no access to a functional build.</p>
-        <p class="cs-body">What initially appeared to be a straightforward adaptation quickly revealed a deeper challenge:<br>
-the tool was not designed for customers, lacked a clear purpose, and introduced significant usability and trust risks.</p>
-        <p class="cs-body">Our role shifted from execution to defining the product itself—clarifying its purpose, identifying gaps, and establishing a direction aligned with customer needs and industry expectations.</p>
+        <p class="cs-body">
+      This project began without Product or UX involvement. By the time our team was brought in, leadership had already approved adding an internal AI tool—originally built for store associates—into the customer-facing Publix app.
+      <br><br>
+      Our “kickoff” was a two-minute screen recording of the associate tool, with no access to a working build.
+      <br><br>
+      What initially seemed like a straightforward adaptation quickly revealed a larger issue: the tool wasn’t designed for customers. It lacked a clear purpose in the shopping journey and introduced meaningful usability and trust concerns.
+      <br><br>
+      As a result, our role shifted from execution to definition—clarifying the product’s purpose, identifying critical gaps, and establishing a direction aligned with customer needs and industry expectations.
+        </p>
       </div>
     </section>
   </div>
@@ -578,16 +582,90 @@ the tool was not designed for customers, lacked a clear purpose, and introduced 
         font-size: 2rem;
         cursor: pointer;
         transition: background 0.2s;
+        z-index: 2;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        aspect-ratio: 1 / 1;
+        padding: 0;
+      }
+      .custom-carousel-arrow.disabled {
+        display: none !important;
+      }
+      .custom-carousel-arrow:hover {
+        background: #a673b4;
+      }
+      .custom-carousel-arrow-left {
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .custom-carousel-arrow-right {
+        position: absolute;
+        right: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
       }
       .custom-carousel-content {
+        margin: 0 auto;
+        width: 100%;
+        background: var(--bg-light);
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(124,77,153,0.06);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 1rem;
+        position: relative;
         min-height: 340px;
         overflow: hidden;
       }
+
       .custom-carousel-track {
         display: flex;
         flex-direction: row;
         align-items: stretch;
         width: 100%;
+        height: 100%;
+        justify-content: center;
+        transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+        position: relative;
+      }
+
+      .custom-carousel-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 2.5rem;
+        min-width: 90%;
+        max-width: 420px;
+        background: transparent;
+        box-shadow: none;
+        opacity: 1;
+        z-index: 2;
+        transition: filter 0.4s, opacity 0.4s, transform 0.5s;
+      }
+      /* .custom-carousel-card.side { removed: no side cards anymore } */
+      .custom-carousel-card.hidden {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+        z-index: 0;
+      }
+      .custom-carousel-counter {
+        position: absolute;
+        top: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #7c4d99;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 2px 12px;
+        border-radius: 8px;
+        z-index: 1;
       }
       .custom-carousel-card {
         display: flex;
@@ -693,46 +771,21 @@ the tool was not designed for customers, lacked a clear purpose, and introduced 
     <script>
       // Carousel #2 logic with animation and blurred previews
       const customCarouselData = [
-        {
-          title: 'Required Intermediary Step',
-          text: 'Apple Pay could not capture required order details (store, time, contact info). I introduced a lightweight intermediary step before triggering Apple Pay—ensuring all required inputs were captured without breaking flow. This constraint became a design opportunity.',
-          img: 'images/checkout-key-desicion-1.png'
-        },
-        {
-          title: 'Unified Pattern Across Both Projects',
-          text: 'The intermediary step mirrored core checkout actions (store, time, etc.), revealing an opportunity to unify both experiences. We consolidated into a single reusable pattern that improved consistency, reduced engineering complexity, and enabled parallel development.',
-          img: 'images/checkout-key-desicion-2.png'
-        },
-        {
-          title: 'Flexible Pickup Windows',
-          text: 'Customers selected an exact pickup time (e.g., 2:30 PM), which reserved a pickup slot before checkout submission. 60% chose the earliest option, but since checkout took 5–10 minutes, that slot often expired—triggering an error on submission and forcing them to restart. This was a primary driver of drop-off at the final step. I replaced this with a flexible default: “30–45 minutes after checkout.” By assigning the pickup time after checkout, we eliminated slot expiration for the majority of users while still allowing scheduling.',
-          img: 'images/checkout-key-desicion-3.png'
-        },
-        {
-          title: '15-Minute Grace Range',
-          text: 'Customer care data and app store reviews showed frustration when orders weren’t ready exactly at the stated 12:15 PM pickup time. While I couldn’t solve in-store fulfillment, I improved expectations through UX by introducing a 15-minute pickup window. Instead of a single time, customers now see a range (e.g., 12:15–12:30 PM). This was applied to both scheduled orders and the default “30–45 minutes after checkout” flow, aligning with QSR patterns and reducing disappointment at pickup.',
-          img: 'images/checkout-key-desicion-4.png'
-        },
-        {
-          title: 'De-Emphasizing Pay In-Store',
-          text: 'Unpaid, uncollected orders were creating operational waste, so we made it a goal to increase pay-online adoption. I nested “Pay in store” and positioned Apple Pay as the default. Due to stakeholder hesitation, we usability-tested both versions—results showed customers could still find the option just as easily, giving us confidence to move forward.',
-          img: 'images/checkout-key-desicion-5.png'
-        },
-        {
-          title: 'Validating the Redesign Through Usability Testing',
-          text: 'Before moving forward with such a significant change, we validated the redesigned checkout against the current experience through usability testing. The new version performed slightly better in speed, ease, and overall preference, while also revealing strengths in the existing flow—leading the next iteration to combine the simplicity of the new design with the clarity of the original through an accordion-based layout.',
-          img: 'images/checkout-key-desicion-6.png'
-        },
-        {
-          title: 'Flexible, Non-Linear Checkout',
-          text: 'Using insights from the previous test—where some users preferred a structured, step-by-step flow—I tested a step-locked experience against a prefilled, review-first approach. The flexible version performed better in speed, ease, and preference, validating a shift away from forced progression and toward our 1-click checkout vision.',
-          img: 'images/checkout-key-desicion-7.png'
-        },
-        {
-          title: 'Store Confirmation Tradeoff',
-          text: 'Although a 1-click checkout was validated via UserTesting, 20% of customers change their store during checkout, and this is currently the only confirmation point. Removing it risked misrouted orders and profit loss. To address this, we plan to A/B test moving store confirmation earlier in the journey—validating the impact before removing it from checkout.',
-          img: 'images/checkout-key-desicion-8.png'
-        }
+          {
+            title: 'Still under construction…',
+            text: `Still under construction…`,
+            img: 'images/aichat-key-desicion-1.png'
+          },
+          {
+            title: 'Still under construction…',
+            text: `Still under construction…`,
+            img: 'images/aichat-key-desicion-2.png'
+          },
+          {
+            title: 'Still under construction…',
+            text: `Still under construction…`,
+            img: 'images/aichat-key-desicion-3.png'
+          }
       ];
       let customCurrent = 0;
       let customIsAnimating = false;
@@ -810,7 +863,7 @@ the tool was not designed for customers, lacked a clear purpose, and introduced 
         card.appendChild(title);
         const text = document.createElement('div');
         text.className = 'custom-carousel-card-text';
-        text.textContent = data.text;
+        text.innerHTML = data.text;
         card.appendChild(text);
         return card;
       }

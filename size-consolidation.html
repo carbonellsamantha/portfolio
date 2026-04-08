@@ -426,6 +426,9 @@
       <div class="container">
         <section class="cs-section">
           <div class="cs-section-title"><div class="cs-section-icon">🎯</div><h2>Context &amp; Challenge</h2></div>
+          <div style="text-align:center;margin-bottom:2rem;">
+            <img src="images/Adobe%20Express%20-%20SizeConsolidation_Challenges.gif" alt="Size Consolidation Challenges" style="max-width:100%;height:auto;display:block;margin:0 auto;" />
+          </div>
           <div class="cs-inner">
             <p class="cs-body">Engineering initiated a test to consolidate size variants (Small, Medium, Large) into a single product card, allowing customers to select size on the PDP instead of navigating separate product pages.</p>
             <p class="cs-body">While the concept had clear UX potential—reducing redundancy and simplifying browsing—the execution introduced critical issues across both the frontend experience and backend architecture.</p>
@@ -472,50 +475,392 @@
 
       <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 
-      <div class="container">
-        <section class="cs-section">
-          <div class="cs-section-title"><div class="cs-section-icon">🔑</div><h2>Key Design Decisions</h2></div>
-          <div class="cs-inner">
-            <div class="cs-findings">
-              <div class="cs-finding-item"><span class="cs-finding-num">1 of 3</span><div class="cs-finding-text"><strong>Prioritizing immediate clarity while addressing larger issues</strong><span>We introduced quick UI improvements to the live test to reduce confusion and improve scanability without delaying progress.</span></div></div>
-              <div class="cs-finding-item"><span class="cs-finding-num">2 of 3</span><div class="cs-finding-text"><strong>Balancing usability with engineering feasibility</strong><span>While multiple concepts performed well in testing, we selected the solution that met usability goals while minimizing additional engineering effort.</span></div></div>
-              <div class="cs-finding-item"><span class="cs-finding-num">3 of 3</span><div class="cs-finding-text"><strong>Redefining architecture to support both UX and business needs</strong><span>We restored size-level ProductIDs while introducing a parent relationship, ensuring the system reflects both customer understanding and technical requirements.</span></div></div>
+
+    <!-- New Carousel (Carousel #2) -->
+    <div class="container">
+      <section class="cs-section">
+        <div class="cs-section-title">
+          <div class="cs-section-icon">🔑</div>
+          <h2>Key Design Decisions</h2>
+        </div>
+        <div class="custom-carousel">
+          <div class="custom-carousel-arrow custom-carousel-arrow-left" onclick="moveCustomCarousel(-1)" aria-label="Previous">
+            <span>←</span>
+          </div>
+          <div class="custom-carousel-counter" id="custom-carousel-counter">1 of 8</div>
+          <div class="custom-carousel-content">
+            <div class="custom-carousel-track" id="custom-carousel-track">
+              <!-- Cards will be rendered here by JS -->
             </div>
           </div>
-        </section>
-      </div>
-
-      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
-
-      <div class="container">
-        <section class="cs-section">
-          <div class="cs-section-title"><div class="cs-section-icon">🚀</div><h2>Impact &amp; Measurement Plan</h2></div>
-          <div class="cs-inner">
-            <div class="cs-results-grid">
-              <div class="cs-stat-card green-light">
-                <span class="cs-stat-icon">📈</span>
-                <p class="cs-stat-label">Conversion Rate</p>
-                <div><p class="cs-stat-value">Projected +3% lift</p><p class="cs-stat-desc">on size-based products</p></div>
-              </div>
-              <div class="cs-stat-card green-dark">
-                <span class="cs-stat-icon">⏱️</span>
-                <p class="cs-stat-label">Time to Selection</p>
-                <div><p class="cs-stat-value">Projected 10% reduction</p></div>
-              </div>
-              <div class="cs-stat-card green-light">
-                <span class="cs-stat-icon">📉</span>
-                <p class="cs-stat-label">Drop-Off Rate</p>
-                <div><p class="cs-stat-value">Expected decrease</p><p class="cs-stat-desc">between PDP and add-to-cart</p></div>
-              </div>
-              <div class="cs-stat-card green-dark">
-                <span class="cs-stat-icon">🧩</span>
-                <p class="cs-stat-label">System Integrity</p>
-                <div><p class="cs-stat-value">Restores full SEO, analytics, and marketing functionality</p></div>
-              </div>
-            </div>
+          <div class="custom-carousel-arrow custom-carousel-arrow-right" onclick="moveCustomCarousel(1)" aria-label="Next">
+            <span>→</span>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+    </div>
+
+    <style>
+      .custom-carousel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        position: relative;
+        margin: 0rem 2rem;
+        min-height: 400px;
+      }
+      .custom-carousel-arrow {
+        background: #7c4d99;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        z-index: 2;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        aspect-ratio: 1 / 1;
+        padding: 0;
+      }
+      .custom-carousel-arrow.disabled {
+        display: none !important;
+      }
+      .custom-carousel-arrow:hover {
+        background: #a673b4;
+      }
+      .custom-carousel-arrow-left {
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .custom-carousel-arrow-right {
+        position: absolute;
+        right: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .custom-carousel-content {
+        margin: 0 auto;
+        width: 100%;
+        background: var(--bg-light);
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(124,77,153,0.06);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 1rem;
+        position: relative;
+        min-height: 340px;
+        overflow: hidden;
+      }
+
+      .custom-carousel-track {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+        position: relative;
+      }
+
+      .custom-carousel-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 2.5rem;
+        min-width: 90%;
+        max-width: 420px;
+        background: transparent;
+        box-shadow: none;
+        opacity: 1;
+        z-index: 2;
+        transition: filter 0.4s, opacity 0.4s, transform 0.5s;
+      }
+      /* .custom-carousel-card.side { removed: no side cards anymore } */
+      .custom-carousel-card.hidden {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+        z-index: 0;
+      }
+      .custom-carousel-counter {
+        position: absolute;
+        top: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #7c4d99;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 2px 12px;
+        border-radius: 8px;
+        z-index: 1;
+      }
+      .custom-carousel-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
+      }
+      .custom-carousel-image {
+        width: 100%;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        background: none;
+      }
+      .custom-carousel-card-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #2d1a36;
+        margin-bottom: 0.5rem;
+        text-align: left;
+        width: 100%;
+        padding-left: 1.5rem;
+      }
+      .custom-carousel-card-text {
+        font-size: 1rem;
+        color: var(--ink-soft);
+        text-align: left;
+        opacity: 1;
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-bottom: 1rem;
+        transition: opacity 0.4s;
+      }
+      /* .custom-carousel-card.side .custom-carousel-card-text { removed: no side cards anymore } */
+            .custom-carousel-dots {
+              display: flex;
+              justify-content: center;
+              gap: 0.5rem;
+              margin-top: 1.5rem;
+              margin-bottom: 0.5rem;
+            }
+            .custom-carousel-dot {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: #d1c6e0;
+              display: inline-block;
+              transition: background 0.2s, transform 0.2s;
+              cursor: pointer;
+            }
+            .custom-carousel-dot.active {
+              background: #7c4d99;
+              transform: scale(1.25);
+            }
+      @media (max-width: 600px) {
+        .custom-carousel {
+          margin: 0rem 0rem;
+        }
+        .cs-inner {
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .custom-carousel-content {
+          padding: 0.5rem 1rem 1rem 1rem;
+          min-height: 320px;
+        }
+        .custom-carousel-image {
+          max-width: 95vw;
+          aspect-ratio: 16 / 10;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .custom-carousel-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          aspect-ratio: 16 / 10;
+          display: block;
+        }
+        .custom-carousel-arrow {
+          width: 32px;
+          height: 32px;
+          font-size: 1.5rem;
+        }
+        .custom-carousel-arrow-left {
+          left: -1rem;
+        }
+        .custom-carousel-arrow-right {
+          right: -1rem;
+        }
+        .custom-carousel-card-title, .custom-carousel-card-text {
+          padding-left: 0.5rem;
+        }
+      }
+    </style>
+
+    <script>
+      // Carousel #2 logic with animation and blurred previews
+      const customCarouselData = [
+            {
+              title: 'Improving clarity in the short term while larger issues were defined',
+              text: `Because this test was already live across multiple products, we prioritized a quick UI refinement across key areas of the product card.<br>We replaced slashes in serving sizes with commas to avoid misreading, surfaced “available in 3 sizes” as its own line to improve scanability, and updated pricing to call out promotions more explicitly (e.g., “Save $2.00 on Medium”).<br>These updates reduced confusion, made key details easier to scan, and allowed promotional pricing to be more visible—without slowing down delivery.`,
+              img: 'images/sizeconsolidation-key-desicion-1.png'
+            },
+            {
+              title: 'Balancing usability insights with engineering feasibility',
+              text: `I explored 20+ product card variations and narrowed them to three concepts for usability testing, focusing on how clearly customers could recognize size options.<br>All concepts performed well, but Prototype A stood out in preference due to its clearer size and pricing presentation. However, since Prototype C already met usability goals and was actively in development, we moved forward with it to avoid additional engineering effort.<br>This ensured we delivered a validated solution while staying aligned with timeline and feasibility constraints.`,
+              img: 'images/sizeconsolidation-key-desicion-2.png'
+            },
+            {
+              title: 'Establishing a scalable structure for size variants',
+              text: `To address issues from the earlier test, we re-established unique ProductIDs for each size while introducing a parent grouping to connect them.<br>This maintained size-level flexibility while enabling a unified product experience when appropriate.<br>By documenting this structure, we aligned teams on a scalable model that supports consistent backend logic, flexible UI patterns, and reliable identifiers for analytics and linking—ensuring future work builds on a stable foundation.`,
+              img: 'images/sizeconsolidation-key-desicion-3.png'
+            }
+      ];
+      let customCurrent = 0;
+      let customIsAnimating = false;
+
+      function renderCustomCarousel() {
+        const track = document.getElementById('custom-carousel-track');
+        if (!track) return;
+        // Clear
+        track.innerHTML = '';
+        // Only render the current card
+        track.appendChild(createCustomCard(customCarouselData[customCurrent], 'center'));
+
+        // Center the track
+        track.style.justifyContent = 'center';
+
+        // Disable/enable arrows
+        const leftArrow = document.querySelector('.custom-carousel-arrow-left');
+        const rightArrow = document.querySelector('.custom-carousel-arrow-right');
+        if (leftArrow) {
+          if (customCurrent === 0) {
+            leftArrow.classList.add('disabled');
+            leftArrow.setAttribute('disabled', 'disabled');
+          } else {
+            leftArrow.classList.remove('disabled');
+            leftArrow.removeAttribute('disabled');
+          }
+        }
+        if (rightArrow) {
+          if (customCurrent === customCarouselData.length - 1) {
+            rightArrow.classList.add('disabled');
+            rightArrow.setAttribute('disabled', 'disabled');
+          } else {
+            rightArrow.classList.remove('disabled');
+            rightArrow.removeAttribute('disabled');
+          }
+        }
+
+        // Render pagination dots
+        let dots = document.getElementById('custom-carousel-dots');
+        if (!dots) {
+          dots = document.createElement('div');
+          dots.id = 'custom-carousel-dots';
+          dots.className = 'custom-carousel-dots';
+          track.parentElement.appendChild(dots);
+        }
+        dots.innerHTML = '';
+        for (let i = 0; i < customCarouselData.length; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'custom-carousel-dot' + (i === customCurrent ? ' active' : '');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.onclick = () => {
+            if (customIsAnimating || i === customCurrent) return;
+            customCurrent = i;
+            updateCustomCarousel(0);
+          };
+          dots.appendChild(dot);
+        }
+      }
+
+      function createCustomCard(data, pos) {
+        const card = document.createElement('div');
+        card.className = 'custom-carousel-card' + (pos ? ' ' + pos : '');
+        const imgDiv = document.createElement('div');
+        imgDiv.className = 'custom-carousel-image';
+        const img = document.createElement('img');
+        img.src = data.img;
+        img.alt = 'Placeholder';
+        img.style.width = '100%';
+        // No fixed height, object-fit, or opacity
+        imgDiv.appendChild(img);
+        card.appendChild(imgDiv);
+        const title = document.createElement('div');
+        title.className = 'custom-carousel-card-title';
+        title.textContent = data.title;
+        card.appendChild(title);
+        const text = document.createElement('div');
+        text.className = 'custom-carousel-card-text';
+        text.innerHTML = data.text;
+        card.appendChild(text);
+        return card;
+      }
+
+      function updateCustomCarousel(animateDir = 0) {
+        const counter = document.getElementById('custom-carousel-counter');
+        counter.textContent = `${customCurrent + 1} of ${customCarouselData.length}`;
+        const track = document.getElementById('custom-carousel-track');
+        if (!track) return;
+
+        if (animateDir !== 0) {
+          if (customIsAnimating) return;
+          customIsAnimating = true;
+          // Animate slide
+          track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+          track.style.transform = `translateX(${animateDir * -100}%)`;
+          setTimeout(() => {
+            // Reset
+            renderCustomCarousel();
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${animateDir * 100}%)`;
+            setTimeout(() => {
+              track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+              track.style.transform = 'translateX(0)';
+              setTimeout(() => {
+                track.style.transition = '';
+                customIsAnimating = false;
+              }, 500);
+            }, 30);
+          }, 500);
+        } else {
+          renderCustomCarousel();
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(0)';
+        }
+      }
+
+      function moveCustomCarousel(dir) {
+        if (customIsAnimating) return;
+        const newIdx = customCurrent + dir;
+        if (newIdx < 0 || newIdx >= customCarouselData.length) return;
+        updateCustomCarousel(dir);
+        setTimeout(() => {
+          customCurrent = newIdx;
+          updateCustomCarousel(0);
+        }, 500);
+      }
+
+      // Initialize on DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', function() {
+        renderCustomCarousel();
+        updateCustomCarousel(0);
+      });
+    </script>
+
+
 
       <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
 

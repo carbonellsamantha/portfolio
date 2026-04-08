@@ -407,7 +407,7 @@
       <img src="images/S-logomark-nobg.png" alt="Smashley logo" />
       <a href="index.html">Smashley's Design Portfolio</a>
       <span class="sep">/</span>
-      <span class="current">Order </span>
+      <span class="current">Order Ahead Menu</span>
     </nav>
   </div>
 
@@ -515,6 +515,9 @@
         <h2>Solution</h2>
       </div>
       <div class="cs-inner">
+          <div style="text-align:center;margin-bottom:2rem;">
+            <img src="images/OrderAheadMenuSolution.png" alt="Order Ahead Menu Solution diagram" style="width:100%;height:auto;display:block;margin:0 auto;">
+          </div>
         <p class="cs-body">To address these challenges, I proposed a three-level hierarchical browse system that aligns with how customers naturally navigate—from broad exploration to specific selection.</p>
         <p class="cs-body">This created a flexible foundation that supports both user needs and business goals.</p>
         <div class="cs-solution-grid">
@@ -793,46 +796,21 @@
     <script>
       // Carousel #2 logic with animation and blurred previews
       const customCarouselData = [
-        {
-          title: 'Required Intermediary Step',
-          text: 'Apple Pay could not capture required order details (store, time, contact info). I introduced a lightweight intermediary step before triggering Apple Pay—ensuring all required inputs were captured without breaking flow. This constraint became a design opportunity.',
-          img: 'images/checkout-key-desicion-1.png'
-        },
-        {
-          title: 'Unified Pattern Across Both Projects',
-          text: 'The intermediary step mirrored core checkout actions (store, time, etc.), revealing an opportunity to unify both experiences. We consolidated into a single reusable pattern that improved consistency, reduced engineering complexity, and enabled parallel development.',
-          img: 'images/checkout-key-desicion-2.png'
-        },
-        {
-          title: 'Flexible Pickup Windows',
-          text: 'Customers selected an exact pickup time (e.g., 2:30 PM), which reserved a pickup slot before checkout submission. 60% chose the earliest option, but since checkout took 5–10 minutes, that slot often expired—triggering an error on submission and forcing them to restart. This was a primary driver of drop-off at the final step. I replaced this with a flexible default: “30–45 minutes after checkout.” By assigning the pickup time after checkout, we eliminated slot expiration for the majority of users while still allowing scheduling.',
-          img: 'images/checkout-key-desicion-3.png'
-        },
-        {
-          title: '15-Minute Grace Range',
-          text: 'Customer care data and app store reviews showed frustration when orders weren’t ready exactly at the stated 12:15 PM pickup time. While I couldn’t solve in-store fulfillment, I improved expectations through UX by introducing a 15-minute pickup window. Instead of a single time, customers now see a range (e.g., 12:15–12:30 PM). This was applied to both scheduled orders and the default “30–45 minutes after checkout” flow, aligning with QSR patterns and reducing disappointment at pickup.',
-          img: 'images/checkout-key-desicion-4.png'
-        },
-        {
-          title: 'De-Emphasizing Pay In-Store',
-          text: 'Unpaid, uncollected orders were creating operational waste, so we made it a goal to increase pay-online adoption. I nested “Pay in store” and positioned Apple Pay as the default. Due to stakeholder hesitation, we usability-tested both versions—results showed customers could still find the option just as easily, giving us confidence to move forward.',
-          img: 'images/checkout-key-desicion-5.png'
-        },
-        {
-          title: 'Validating the Redesign Through Usability Testing',
-          text: 'Before moving forward with such a significant change, we validated the redesigned checkout against the current experience through usability testing. The new version performed slightly better in speed, ease, and overall preference, while also revealing strengths in the existing flow—leading the next iteration to combine the simplicity of the new design with the clarity of the original through an accordion-based layout.',
-          img: 'images/checkout-key-desicion-6.png'
-        },
-        {
-          title: 'Flexible, Non-Linear Checkout',
-          text: 'Using insights from the previous test—where some users preferred a structured, step-by-step flow—I tested a step-locked experience against a prefilled, review-first approach. The flexible version performed better in speed, ease, and preference, validating a shift away from forced progression and toward our 1-click checkout vision.',
-          img: 'images/checkout-key-desicion-7.png'
-        },
-        {
-          title: 'Store Confirmation Tradeoff',
-          text: 'Although a 1-click checkout was validated via UserTesting, 20% of customers change their store during checkout, and this is currently the only confirmation point. Removing it risked misrouted orders and profit loss. To address this, we plan to A/B test moving store confirmation earlier in the journey—validating the impact before removing it from checkout.',
-          img: 'images/checkout-key-desicion-8.png'
-        }
+          {
+            title: 'Using research to define a more intuitive category structure',
+            text: `The original Subs & Wraps experience grouped 49 items into a single list, making it difficult to browse.<br>To redesign this, I conducted a 30-person card sort to understand how customers naturally organize items. These insights directly informed a new category structure built around familiar, intuitive groupings.<br>This ensured the experience wasn’t based on assumptions, but grounded in real customer behavior—making browsing faster and more intuitive.`,
+            img: 'images/orderaheadmenu-key-desicion-1.png'
+          },
+          {
+            title: 'Partnering cross-functionally to define scalable merchandising guidelines',
+            text: `I worked closely with the merchandising team to understand how they plan, manage, and deliver content within the app.<br>Together, we translated those needs into a system of flexible content zones, supported by clear guidelines for placement, hierarchy, and usage. These guidelines were shaped directly by the teams responsible for using them.<br>This created a shared framework that supports consistency while giving teams the flexibility they need to operate effectively.`,
+            img: 'images/orderaheadmenu-key-desicion-2.png'
+          },
+          {
+            title: 'Prioritizing high-impact templates first',
+            text: `We structured the rollout into smaller, high-impact phases by prioritizing Level 0 and Level 2 templates, which support the app’s top revenue-driving categories, while deferring the more complex Level 1 template.<br>We also made targeted design trade-offs—removing elements like promos and badges—to reduce development effort, ship faster, and enable future A/B testing.`,
+            img: 'images/orderaheadmenu-key-desicion-3.png'
+          }
       ];
       let customCurrent = 0;
       let customIsAnimating = false;
@@ -910,7 +888,7 @@
         card.appendChild(title);
         const text = document.createElement('div');
         text.className = 'custom-carousel-card-text';
-        text.textContent = data.text;
+        text.innerHTML = data.text;
         card.appendChild(text);
         return card;
       }
@@ -1000,9 +978,9 @@
             <span class="cs-stat-icon">📈</span>
             <p class="cs-stat-label">Conversion Rate</p>
             <div>
-              <p class="cs-stat-value">+4–8%</p>
+              <p class="cs-stat-value">+4%</p>
               <p class="cs-stat-desc">Projected lift across Order Ahead</p>
-              <p class="cs-stat-desc" style="font-size:14px;opacity:0.8;">Based on scaling prior +5% gains from web and featured categories</p>
+              <p class="cs-stat-desc" style="font-size:14px;opacity:0.8;">Based on +5% gains from mobile web</p>
             </div>
           </div>
           <div class="cs-stat-card green-dark">

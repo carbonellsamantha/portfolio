@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+      // Simple password protection (not secure for sensitive info)
+      (function() {
+        var password = "letmein"; // Change this to your desired password
+        var entered = sessionStorage.getItem("case_study_pw");
+        if (entered !== password) {
+          var input = prompt("This case study is password protected. Please enter the password:");
+          if (input !== password) {
+            document.body.innerHTML = "<div style='display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;font-size:1.5rem;color:#a00;'>Access denied.</div>";
+            throw new Error("Access denied");
+          } else {
+            sessionStorage.setItem("case_study_pw", password);
+          }
+        }
+      })();
+    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Ahead Menu — Smashley's Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/S-logomark-nobg.png" />
+  <link rel="apple-touch-icon" href="images/S-logomark-nobg.png" />
+  <style>
+        .cs-solution-card-meta {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 0.5rem 2rem;
+          margin-top: 0.5rem;
+        }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #723b7d;
+      --green:        #00753e;
+      --green-dark:   #004c29;
+      --ink:          #1a1a1a;
+      --ink-soft:     #444;
+      --bg:           #ffffff;
+      --bg-light:     #f2f2f2;
+      --bg-nav:       #f2f2f2;
+      --border:       #c8c8c8;
+      --green-border: rgba(0,117,62,0.3);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Montserrat', sans-serif;
+      --content-width: 1024px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      padding-top: 70px; /* Adjust to match nav height */
+    }
+
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Nav breadcrumb ──────────────────────────────────────────── */
+    .cs-nav-wrap {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .cs-nav {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 2rem 2rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cs-nav img { width: 24px; height: 24px; border-radius: 6px; object-fit: contain; }
+    .cs-nav a { font-size: 14px; font-weight: 500; color: var(--purple); text-decoration: underline; text-underline-offset: 2px; }
+    .cs-nav .sep, .cs-nav .current { font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+
+    /* ── Hero ───────────────────────────────────────────────────── */
+    .cs-hero {
+      padding: 4rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .cs-hero h1 {
+      font-family: var(--font-body);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .cs-hero-intro {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2vw, 1.375rem);
+      font-weight: 600;
+      line-height: 1.7;
+    }
+
+    .cs-hero-intro strong { font-weight: 900; }
+
+    .cs-hero-image {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.16);
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(37deg, #1a5c3a, #2d7a50);
+    }
+
+    .cs-hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── Meta pills ──────────────────────────────────────────────── */
+    .cs-meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .cs-meta-item {
+      background: rgba(255,255,255,0.64);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .cs-meta-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+    .cs-meta-label { font-family: var(--font-display); font-size: 12px; color: var(--ink-soft); line-height: 1; margin-bottom: 2px; }
+    .cs-meta-value { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.65; }
+
+    /* ── Wave divider ────────────────────────────────────────────── */
+    .wave-divider {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+      line-height: 0;
+    }
+
+    .wave-divider img { display: block; width: 100%; height: auto; }
+
+    /* ── Sections ────────────────────────────────────────────────── */
+    .cs-section { padding: 4rem 0; }
+
+    .cs-section-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .cs-section-icon {
+      width: 48px; height: 48px;
+      background: var(--bg-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; flex-shrink: 0;
+    }
+
+    .cs-section-title h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .cs-inner { padding: 0 4rem; }
+
+    .cs-body {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Key findings ────────────────────────────────────────────── */
+    .cs-findings {
+      background: var(--bg-light);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cs-findings-title { font-size: 20px; font-weight: 600; color: var(--ink); line-height: 1.8; }
+
+    .cs-finding-item { display: flex; gap: 0.5rem; align-items: flex-start; }
+    .cs-finding-num { font-size: 18px; font-weight: 600; color: var(--purple); flex-shrink: 0; line-height: 1.8; }
+    .cs-finding-text { font-size: 16px; line-height: 1.8; }
+    .cs-finding-text strong { font-weight: 500; color: var(--ink); display: block; }
+    .cs-finding-text span { color: var(--ink-soft); font-weight: 400; }
+
+    /* ── Full-width image ────────────────────────────────────────── */
+    .cs-full-image { width: 100%; border-radius: 8px; overflow: hidden; margin: 1rem 0; }
+    .cs-full-image img { width: 100%; height: auto; display: block; }
+    .cs-full-image .placeholder { width: 100%; background: linear-gradient(37deg,#1a5c3a,#2d7a50); border-radius: 8px; }
+
+    /* ── Solution cards ──────────────────────────────────────────── */
+    .cs-solution-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; margin: 1rem 0; }
+
+    .cs-solution-card {
+      border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1.5rem; color: white;
+    }
+
+    .cs-solution-card.green-light { background: var(--green); }
+    .cs-solution-card.green-dark  { background: var(--green-dark); }
+    .cs-solution-card-title { font-size: 20px; font-weight: 600; line-height: 1.8; }
+    .cs-solution-card-desc  { font-size: 16px; font-weight: 500; line-height: 1.8; }
+    .cs-solution-card-meta  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem 2rem; margin-top: 0.5rem; }
+    .cs-solution-meta-label { font-family: var(--font-display); font-size: 12px; color: rgba(255,255,255,0.64); display: block; margin-bottom: 2px; }
+    .cs-solution-meta-value { font-size: 16px; font-weight: 500; line-height: 1.65; color: white; }
+
+    /* ── Key Design Decisions — Carousel ─────────────────────────── */
+    .cs-carousel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0;
+    }
+
+    .cs-carousel-counter {
+      font-size: 16px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    .cs-carousel-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .cs-carousel-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      transition: background 0.15s;
+    }
+
+    .cs-carousel-btn:hover { background: #fff; }
+
+    .cs-carousel-track-wrap {
+      width: 100%;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: visible;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+
+    .cs-carousel-track {
+      display: flex;
+      gap: 2rem;
+      padding: 0 0;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .cs-carousel-card {
+      background: var(--bg-light);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+      width: 88%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cs-carousel-card-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--bg-light);
+      flex-shrink: 0;
+    }
+
+    .cs-carousel-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .cs-carousel-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .cs-carousel-tag {
+      display: inline-flex;
+      align-items: center;
+      background: var(--purple);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 2px;
+      line-height: 1;
+      align-self: flex-start;
+    }
+
+    .cs-carousel-card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.8;
+    }
+
+    .cs-carousel-card-text {
+      font-size: 16px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    .cs-carousel-card-text p + p { margin-top: 0.75rem; }
+
+    /* ── Results ─────────────────────────────────────────────────── */
+    .cs-results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+
+    .cs-stat-card {
+      border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem; color: white;
+    }
+
+    .cs-stat-card.green-light { background: var(--green); }
+    .cs-stat-card.green-dark  { background: var(--green-dark); }
+    .cs-stat-icon { font-size: 2rem; line-height: 1; }
+    .cs-stat-label { font-family: var(--font-display); font-size: 12px; color: rgba(255,255,255,0.64); }
+    .cs-stat-value { font-size: 2rem; font-weight: 600; line-height: 1; }
+    .cs-stat-desc  { font-size: 16px; font-weight: 500; line-height: 1.8; }
+
+    /* ── Reflections ─────────────────────────────────────────────── */
+    .cs-reflections-box {
+      background: var(--bg-light); border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .cs-reflections-box h3 { font-size: 20px; font-weight: 600; line-height: 1.8; color: var(--ink); }
+
+    .cs-reflections-box ul { list-style: disc; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .cs-reflections-box li { font-size: 16px; font-weight: 500; line-height: 1.8; color: var(--ink); }
+
+    /* ── Dark Mode ───────────────────────────────────────────────── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --purple:   #a673b4;
+        --ink:      #f0f0f0;
+        --ink-soft: #aaa;
+        --bg:       #0f0f0f;
+        --bg-light: #1a1a1a;
+        --bg-nav:   #1a1a1a;
+        --border:   #333;
+      }
+      body { background: var(--bg); }
+      .cs-meta-item { background: rgba(255,255,255,0.05); }
+      .cs-carousel-btn { background: rgba(255,255,255,0.08); }
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .cs-meta          { grid-template-columns: 1fr 1fr; }
+      .cs-solution-grid { grid-template-columns: 1fr; }
+      .cs-results-grid  { grid-template-columns: 1fr; }
+      .cs-inner         { padding: 0 1rem; }
+      .cs-carousel-header    { padding: 0 1rem; }
+      .cs-carousel-track-wrap { padding: 0 1rem; }
+      .cs-carousel-card { width: 85%; }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta { grid-template-columns: 1fr; }
+      .cs-carousel-card { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav breadcrumb -->
+  <div class="cs-nav-wrap">
+    <nav class="cs-nav">
+      <img src="images/S-logomark-nobg.png" alt="Smashley logo" />
+      <a href="index.html">Smashley's Design Portfolio</a>
+      <span class="sep">/</span>
+      <span class="current">Order </span>
+    </nav>
+  </div>
+
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="cs-hero">
+      <h1>Order Ahead Menu</h1>
+      <p class="cs-hero-intro">Projected to drive <strong>+4–8% conversion lift</strong> and <strong>+5–10% increase in add-to-cart rate</strong> by restructuring browsing into a scalable system.</p>
+      <div class="cs-hero-image">
+        <video src="images/OrderAheadMenuPromo.mov" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;" aria-label="Order Ahead Menu Promo"></video>
+      </div>
+      <div class="cs-meta">
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">👤</span>
+          <div><p class="cs-meta-label">Client</p><p class="cs-meta-value">Publix</p></div>
+        </div>
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">📅</span>
+          <div><p class="cs-meta-label">Timeline</p><p class="cs-meta-value">18 weeks</p></div>
+        </div>
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">⏱️</span>
+          <div><p class="cs-meta-label">Year</p><p class="cs-meta-value">2024</p></div>
+        </div>
+        <div class="cs-meta-item">
+          <span class="cs-meta-icon">🎨</span>
+          <div><p class="cs-meta-label">Role</p><p class="cs-meta-value">Lead Designer</p></div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <!-- Context & Challenge -->
+  <div class="container">
+    <section class="cs-section">
+      <div class="cs-section-title">
+        <div class="cs-section-icon">🎯</div>
+        <h2>Context &amp; Challenge</h2>
+      </div>
+      <div class="cs-inner">
+        <p class="cs-body">Over the past two years, we ran a series of enhancements across specific Order Ahead categories on both web and app. However, the most impactful improvements were implemented only on web—where they drove a <strong>+6% increase in add-to-cart rate</strong> and a <strong>+5% lift in conversion</strong> in popular categories—leaving the app experience behind.</p>
+        <p class="cs-body">On app, improvements were limited to a small set of categories featured on the homescreen. While those categories saw gains, the broader browsing experience remained outdated—creating a fragmented journey.</p>
+        <p class="cs-body">This revealed a clear opportunity:</p>
+        <p class="cs-body">If we could scale these improvements across the entire experience, we could unlock multi-point conversion gains across all Order Ahead categories, not just a select few.</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <!-- Research -->
+  <div class="container">
+    <section class="cs-section">
+      <div class="cs-section-title">
+        <div class="cs-section-icon">💡</div>
+        <h2>Research</h2>
+      </div>
+      <div class="cs-inner">
+        <div class="cs-full-image">
+          <video src="images/OrderAheadMenuChallenges.mov" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;" aria-label="Research"></video>
+        </div>
+        <p class="cs-body">Competitive audits, analytics, prior experiments, and behavioral patterns revealed three core problems:</p>
+        <div class="cs-findings">
+          <p class="cs-findings-title">Key Findings</p>
+          <div class="cs-finding-item">
+            <span class="cs-finding-num">➊</span>
+            <div class="cs-finding-text">
+              <strong>Browsing structure limited discovery and required prior knowledge</strong>
+              <span>The experience did not meet modern browse expectations—users could only see products after drilling down to the final layer of the category tree. This required users to already know exactly where an item lived within our taxonomy, leaving no opportunity for exploration or discovery and increasing the risk of drop-off.</span>
+            </div>
+          </div>
+          <div class="cs-finding-item">
+            <span class="cs-finding-num">➋</span>
+            <div class="cs-finding-text">
+              <strong>Limited merchandising reach constrains performance</strong>
+              <span>The merchandising team had no way to surface promotions within the Shop Online tab—the app’s primary browsing experience.</span>
+              <span>As a result, only ~10% of categories (those featured on the homescreen) benefited from optimized or promoted experiences, leaving the majority of high-intent browsing sessions unexposed to key content.</span>
+            </div>
+          </div>
+          <div class="cs-finding-item">
+            <span class="cs-finding-num">➌</span>
+            <div class="cs-finding-text">
+              <strong>One-size-fits-all structure failed to support different customer mindsets</strong>
+              <span>All categories were forced into the same layout and behavior, despite serving very different use cases.</span>
+              <span>Browsing quick, everyday items like subs and wraps requires speed and scannability, while planning for events (e.g., platters or cakes) requires more exploration and guidance.</span>
+              <span>The lack of flexibility prevented categories from being optimized for their specific context, limiting both usability and conversion potential.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <!-- Solution -->
+  <div class="container">
+    <section class="cs-section">
+      <div class="cs-section-title">
+        <div class="cs-section-icon">✨</div>
+        <h2>Solution</h2>
+      </div>
+      <div class="cs-inner">
+        <p class="cs-body">To address these challenges, I proposed a three-level hierarchical browse system that aligns with how customers naturally navigate—from broad exploration to specific selection.</p>
+        <p class="cs-body">This created a flexible foundation that supports both user needs and business goals.</p>
+        <div class="cs-solution-grid">
+          <div class="cs-solution-card green-light">
+            <div>
+              <p class="cs-solution-card-title">Level 0 — Entry & Orientation</p>
+              <p class="cs-solution-card-desc">Provides a clear starting point, helping customers quickly understand what’s available and where to go.</p>
+            </div>
+            <div class="cs-solution-card-meta">
+              <div><span class="cs-solution-meta-label">Customer Goal</span><span class="cs-solution-meta-value">Quick recognition and navigation</span></div>
+              <div><span class="cs-solution-meta-label">Business Goal</span><span class="cs-solution-meta-value">Increase engagement with key categories</span></div>
+            </div>
+          </div>
+          <div class="cs-solution-card green-dark">
+            <div>
+              <p class="cs-solution-card-title">Level 1 — Refinement & Exploration</p>
+              <p class="cs-solution-card-desc">Supports large, complex categories (e.g., Bakery) by organizing content into meaningful groupings.</p>
+            </div>
+            <div class="cs-solution-card-meta">
+              <div><span class="cs-solution-meta-label">Customer Goal</span><span class="cs-solution-meta-value">Easier decision-making within large categories</span></div>
+              <div><span class="cs-solution-meta-label">Business Goal</span><span class="cs-solution-meta-value">Better content organization and merchandising opportunities</span></div>
+            </div>
+          </div>
+          <div class="cs-solution-card green-light">
+            <div>
+              <p class="cs-solution-card-title">Level 2 — Selection & Action</p>
+              <p class="cs-solution-card-desc">Designed for focused categories (e.g., Subs), where all items live on one page with quick-jump navigation.</p>
+            </div>
+            <div class="cs-solution-card-meta">
+              <div><span class="cs-solution-meta-label">Customer Goal</span><span class="cs-solution-meta-value">Faster selection with fewer taps</span></div>
+              <div><span class="cs-solution-meta-label">Business Goal</span><span class="cs-solution-meta-value">Increase conversion through reduced friction</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+
+
+    <!-- New Carousel (Carousel #2) -->
+    <div class="container">
+      <section class="cs-section">
+        <div class="cs-section-title">
+          <div class="cs-section-icon">🔑</div>
+          <h2>Key Design Decisions</h2>
+        </div>
+        <div class="custom-carousel">
+          <div class="custom-carousel-arrow custom-carousel-arrow-left" onclick="moveCustomCarousel(-1)" aria-label="Previous">
+            <span>←</span>
+          </div>
+          <div class="custom-carousel-counter" id="custom-carousel-counter">1 of 8</div>
+          <div class="custom-carousel-content">
+            <div class="custom-carousel-track" id="custom-carousel-track">
+              <!-- Cards will be rendered here by JS -->
+            </div>
+          </div>
+          <div class="custom-carousel-arrow custom-carousel-arrow-right" onclick="moveCustomCarousel(1)" aria-label="Next">
+            <span>→</span>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <style>
+      .custom-carousel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        position: relative;
+        margin: 0rem 2rem;
+        min-height: 400px;
+      }
+      .custom-carousel-arrow {
+        background: #7c4d99;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        cursor: pointer;
+        transition: background 0.2s;
+        z-index: 2;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        aspect-ratio: 1 / 1;
+        padding: 0;
+      }
+      .custom-carousel-arrow.disabled {
+        display: none !important;
+      }
+      .custom-carousel-arrow:hover {
+        background: #a673b4;
+      }
+      .custom-carousel-arrow-left {
+        position: absolute;
+        left: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .custom-carousel-arrow-right {
+        position: absolute;
+        right: -1rem;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .custom-carousel-content {
+        margin: 0 auto;
+        width: 100%;
+        background: var(--bg-light);
+        border-radius: 16px;
+        box-shadow: 0 2px 16px rgba(124,77,153,0.06);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1rem 1rem;
+        position: relative;
+        min-height: 340px;
+        overflow: hidden;
+      }
+
+      .custom-carousel-track {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+        transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+        position: relative;
+      }
+
+      .custom-carousel-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 2.5rem;
+        min-width: 90%;
+        max-width: 420px;
+        background: transparent;
+        box-shadow: none;
+        opacity: 1;
+        z-index: 2;
+        transition: filter 0.4s, opacity 0.4s, transform 0.5s;
+      }
+      /* .custom-carousel-card.side { removed: no side cards anymore } */
+      .custom-carousel-card.hidden {
+        opacity: 0;
+        pointer-events: none;
+        position: absolute;
+        left: 0; top: 0;
+        width: 100%;
+        z-index: 0;
+      }
+      .custom-carousel-counter {
+        position: absolute;
+        top: -1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #7c4d99;
+        color: #fff;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 2px 12px;
+        border-radius: 8px;
+        z-index: 1;
+      }
+      .custom-carousel-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
+      }
+      .custom-carousel-image {
+        width: 100%;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.5rem;
+        overflow: hidden;
+        background: none;
+      }
+      .custom-carousel-card-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #2d1a36;
+        margin-bottom: 0.5rem;
+        text-align: left;
+        width: 100%;
+        padding-left: 1.5rem;
+      }
+      .custom-carousel-card-text {
+        font-size: 1rem;
+        color: var(--ink-soft);
+        text-align: left;
+        opacity: 1;
+        width: 100%;
+        padding-left: 1.5rem;
+        padding-bottom: 1rem;
+        transition: opacity 0.4s;
+      }
+      /* .custom-carousel-card.side .custom-carousel-card-text { removed: no side cards anymore } */
+            .custom-carousel-dots {
+              display: flex;
+              justify-content: center;
+              gap: 0.5rem;
+              margin-top: 1.5rem;
+              margin-bottom: 0.5rem;
+            }
+            .custom-carousel-dot {
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background: #d1c6e0;
+              display: inline-block;
+              transition: background 0.2s, transform 0.2s;
+              cursor: pointer;
+            }
+            .custom-carousel-dot.active {
+              background: #7c4d99;
+              transform: scale(1.25);
+            }
+      @media (max-width: 600px) {
+        .custom-carousel {
+          margin: 0rem 0rem;
+        }
+        .cs-inner {
+          padding-left: 0;
+          padding-right: 0;
+        }
+        .custom-carousel-content {
+          padding: 0.5rem 1rem 1rem 1rem;
+          min-height: 320px;
+        }
+        .custom-carousel-image {
+          max-width: 95vw;
+          aspect-ratio: 16 / 10;
+          height: auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .custom-carousel-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          aspect-ratio: 16 / 10;
+          display: block;
+        }
+        .custom-carousel-arrow {
+          width: 32px;
+          height: 32px;
+          font-size: 1.5rem;
+        }
+        .custom-carousel-arrow-left {
+          left: -1rem;
+        }
+        .custom-carousel-arrow-right {
+          right: -1rem;
+        }
+        .custom-carousel-card-title, .custom-carousel-card-text {
+          padding-left: 0.5rem;
+        }
+      }
+    </style>
+
+    <script>
+      // Carousel #2 logic with animation and blurred previews
+      const customCarouselData = [
+        {
+          title: 'Required Intermediary Step',
+          text: 'Apple Pay could not capture required order details (store, time, contact info). I introduced a lightweight intermediary step before triggering Apple Pay—ensuring all required inputs were captured without breaking flow. This constraint became a design opportunity.',
+          img: 'images/checkout-key-desicion-1.png'
+        },
+        {
+          title: 'Unified Pattern Across Both Projects',
+          text: 'The intermediary step mirrored core checkout actions (store, time, etc.), revealing an opportunity to unify both experiences. We consolidated into a single reusable pattern that improved consistency, reduced engineering complexity, and enabled parallel development.',
+          img: 'images/checkout-key-desicion-2.png'
+        },
+        {
+          title: 'Flexible Pickup Windows',
+          text: 'Customers selected an exact pickup time (e.g., 2:30 PM), which reserved a pickup slot before checkout submission. 60% chose the earliest option, but since checkout took 5–10 minutes, that slot often expired—triggering an error on submission and forcing them to restart. This was a primary driver of drop-off at the final step. I replaced this with a flexible default: “30–45 minutes after checkout.” By assigning the pickup time after checkout, we eliminated slot expiration for the majority of users while still allowing scheduling.',
+          img: 'images/checkout-key-desicion-3.png'
+        },
+        {
+          title: '15-Minute Grace Range',
+          text: 'Customer care data and app store reviews showed frustration when orders weren’t ready exactly at the stated 12:15 PM pickup time. While I couldn’t solve in-store fulfillment, I improved expectations through UX by introducing a 15-minute pickup window. Instead of a single time, customers now see a range (e.g., 12:15–12:30 PM). This was applied to both scheduled orders and the default “30–45 minutes after checkout” flow, aligning with QSR patterns and reducing disappointment at pickup.',
+          img: 'images/checkout-key-desicion-4.png'
+        },
+        {
+          title: 'De-Emphasizing Pay In-Store',
+          text: 'Unpaid, uncollected orders were creating operational waste, so we made it a goal to increase pay-online adoption. I nested “Pay in store” and positioned Apple Pay as the default. Due to stakeholder hesitation, we usability-tested both versions—results showed customers could still find the option just as easily, giving us confidence to move forward.',
+          img: 'images/checkout-key-desicion-5.png'
+        },
+        {
+          title: 'Validating the Redesign Through Usability Testing',
+          text: 'Before moving forward with such a significant change, we validated the redesigned checkout against the current experience through usability testing. The new version performed slightly better in speed, ease, and overall preference, while also revealing strengths in the existing flow—leading the next iteration to combine the simplicity of the new design with the clarity of the original through an accordion-based layout.',
+          img: 'images/checkout-key-desicion-6.png'
+        },
+        {
+          title: 'Flexible, Non-Linear Checkout',
+          text: 'Using insights from the previous test—where some users preferred a structured, step-by-step flow—I tested a step-locked experience against a prefilled, review-first approach. The flexible version performed better in speed, ease, and preference, validating a shift away from forced progression and toward our 1-click checkout vision.',
+          img: 'images/checkout-key-desicion-7.png'
+        },
+        {
+          title: 'Store Confirmation Tradeoff',
+          text: 'Although a 1-click checkout was validated via UserTesting, 20% of customers change their store during checkout, and this is currently the only confirmation point. Removing it risked misrouted orders and profit loss. To address this, we plan to A/B test moving store confirmation earlier in the journey—validating the impact before removing it from checkout.',
+          img: 'images/checkout-key-desicion-8.png'
+        }
+      ];
+      let customCurrent = 0;
+      let customIsAnimating = false;
+
+      function renderCustomCarousel() {
+        const track = document.getElementById('custom-carousel-track');
+        if (!track) return;
+        // Clear
+        track.innerHTML = '';
+        // Only render the current card
+        track.appendChild(createCustomCard(customCarouselData[customCurrent], 'center'));
+
+        // Center the track
+        track.style.justifyContent = 'center';
+
+        // Disable/enable arrows
+        const leftArrow = document.querySelector('.custom-carousel-arrow-left');
+        const rightArrow = document.querySelector('.custom-carousel-arrow-right');
+        if (leftArrow) {
+          if (customCurrent === 0) {
+            leftArrow.classList.add('disabled');
+            leftArrow.setAttribute('disabled', 'disabled');
+          } else {
+            leftArrow.classList.remove('disabled');
+            leftArrow.removeAttribute('disabled');
+          }
+        }
+        if (rightArrow) {
+          if (customCurrent === customCarouselData.length - 1) {
+            rightArrow.classList.add('disabled');
+            rightArrow.setAttribute('disabled', 'disabled');
+          } else {
+            rightArrow.classList.remove('disabled');
+            rightArrow.removeAttribute('disabled');
+          }
+        }
+
+        // Render pagination dots
+        let dots = document.getElementById('custom-carousel-dots');
+        if (!dots) {
+          dots = document.createElement('div');
+          dots.id = 'custom-carousel-dots';
+          dots.className = 'custom-carousel-dots';
+          track.parentElement.appendChild(dots);
+        }
+        dots.innerHTML = '';
+        for (let i = 0; i < customCarouselData.length; i++) {
+          const dot = document.createElement('span');
+          dot.className = 'custom-carousel-dot' + (i === customCurrent ? ' active' : '');
+          dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+          dot.onclick = () => {
+            if (customIsAnimating || i === customCurrent) return;
+            customCurrent = i;
+            updateCustomCarousel(0);
+          };
+          dots.appendChild(dot);
+        }
+      }
+
+      function createCustomCard(data, pos) {
+        const card = document.createElement('div');
+        card.className = 'custom-carousel-card' + (pos ? ' ' + pos : '');
+        const imgDiv = document.createElement('div');
+        imgDiv.className = 'custom-carousel-image';
+        const img = document.createElement('img');
+        img.src = data.img;
+        img.alt = 'Placeholder';
+        img.style.width = '100%';
+        // No fixed height, object-fit, or opacity
+        imgDiv.appendChild(img);
+        card.appendChild(imgDiv);
+        const title = document.createElement('div');
+        title.className = 'custom-carousel-card-title';
+        title.textContent = data.title;
+        card.appendChild(title);
+        const text = document.createElement('div');
+        text.className = 'custom-carousel-card-text';
+        text.textContent = data.text;
+        card.appendChild(text);
+        return card;
+      }
+
+      function updateCustomCarousel(animateDir = 0) {
+        const counter = document.getElementById('custom-carousel-counter');
+        counter.textContent = `${customCurrent + 1} of ${customCarouselData.length}`;
+        const track = document.getElementById('custom-carousel-track');
+        if (!track) return;
+
+        if (animateDir !== 0) {
+          if (customIsAnimating) return;
+          customIsAnimating = true;
+          // Animate slide
+          track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+          track.style.transform = `translateX(${animateDir * -100}%)`;
+          setTimeout(() => {
+            // Reset
+            renderCustomCarousel();
+            track.style.transition = 'none';
+            track.style.transform = `translateX(${animateDir * 100}%)`;
+            setTimeout(() => {
+              track.style.transition = 'transform 0.5s cubic-bezier(0.4,0,0.2,1)';
+              track.style.transform = 'translateX(0)';
+              setTimeout(() => {
+                track.style.transition = '';
+                customIsAnimating = false;
+              }, 500);
+            }, 30);
+          }, 500);
+        } else {
+          renderCustomCarousel();
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(0)';
+        }
+      }
+
+      function moveCustomCarousel(dir) {
+        if (customIsAnimating) return;
+        const newIdx = customCurrent + dir;
+        if (newIdx < 0 || newIdx >= customCarouselData.length) return;
+        updateCustomCarousel(dir);
+        setTimeout(() => {
+          customCurrent = newIdx;
+          updateCustomCarousel(0);
+        }, 500);
+      }
+
+      // Initialize on DOMContentLoaded
+      document.addEventListener('DOMContentLoaded', function() {
+        renderCustomCarousel();
+        updateCustomCarousel(0);
+      });
+    </script>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+
+  <!-- Order Ahead Compare Video -->
+  <div class="container">
+    <div class="cs-full-image" style="margin-bottom:2rem;">
+      <video src="images/OrderAheadMenuCompare.mov" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;" aria-label="Order Ahead Compare"></video>
+    </div>
+  </div>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+
+  <!-- Results -->
+  <div class="container">
+    <section class="cs-section">
+      <div class="cs-section-title">
+        <div class="cs-section-icon">🚀</div>
+        <h2>Projected Impact</h2>
+      </div>
+      <div class="cs-inner">
+        <p class="cs-body">The development work for this project is still underway—from both an engineering standpoint and a CMS content-management standpoint.</p>
+        <p class="cs-body">While final performance data is not yet available, this work establishes a scalable foundation for unlocking previously inaccessible impact across the Order Ahead experience.</p>
+        <p class="cs-body">The new structure improves the experience in three key ways:</p>
+        <p class="cs-body">Clearer navigation: Customers have more intuitive paths into key categories, reducing friction and time to discovery</p>
+        <p class="cs-body">Expanded merchandising reach: Promotional capabilities extend from ~10% of categories to the full browsing experience</p>
+        <p class="cs-body">Stronger system foundation: The experience becomes more consistent, flexible, and easier to scale over time</p>
+        <p class="cs-body">Based on prior web performance (+5% conversion, +6% add-to-cart), applying these improvements system-wide is projected to drive +4–8% overall conversion lift and unlock meaningful incremental revenue across Order Ahead.</p>
+        <p class="cs-body">Just as importantly, the staged rollout allows the team to deliver value sooner while creating space for future enhancements and experimentation.</p>
+        <div class="cs-results-grid">
+          <div class="cs-stat-card green-light">
+            <span class="cs-stat-icon">📈</span>
+            <p class="cs-stat-label">Conversion Rate</p>
+            <div>
+              <p class="cs-stat-value">+4–8%</p>
+              <p class="cs-stat-desc">Projected lift across Order Ahead</p>
+              <p class="cs-stat-desc" style="font-size:14px;opacity:0.8;">Based on scaling prior +5% gains from web and featured categories</p>
+            </div>
+          </div>
+          <div class="cs-stat-card green-dark">
+            <span class="cs-stat-icon">💰</span>
+            <p class="cs-stat-label">Merchandising Reach</p>
+            <div>
+              <p class="cs-stat-value">~10% → ~100%</p>
+              <p class="cs-stat-desc">Projected category coverage</p>
+              <p class="cs-stat-desc" style="font-size:14px;opacity:0.8;">Expanding promotions from homescreen-only to full browse experience</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+  <div class="container">
+    <div style="padding: 2rem 0 5rem;">
+      <a href="index.html" style="font-size:13px;font-weight:500;color:var(--purple);text-decoration:underline;text-underline-offset:2px;">← Back to portfolio</a>
+    </div>
+  </div>
+
+  <script>
+    const track = document.getElementById('carousel-track');
+    const counter = document.getElementById('carousel-counter');
+    const cards = track.querySelectorAll('.cs-carousel-card');
+    const total = cards.length;
+    let current = 0;
+
+    function getCardWidth() {
+      if (cards[0]) {
+        const style = getComputedStyle(cards[0]);
+        return cards[0].offsetWidth + parseInt(style.marginRight || 0) + 32; // 32 = gap
+      }
+      return 0;
+    }
+
+    function updateCarousel() {
+      const w = getCardWidth();
+      track.style.transform = `translateX(-${current * w}px)`;
+      counter.textContent = `${current + 1} of ${total}`;
+    }
+
+    function moveCarousel(dir) {
+      current = Math.max(0, Math.min(total - 1, current + dir));
+      updateCarousel();
+    }
+
+    // Recalculate on resize
+    window.addEventListener('resize', updateCarousel);
+  </script>
+
+</body>
+</html>

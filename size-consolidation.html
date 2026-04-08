@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script>
+      // Simple password protection (not secure for sensitive info)
+      (function() {
+        var password = "letmein"; // Change this to your desired password
+        var entered = sessionStorage.getItem("case_study_pw");
+        if (entered !== password) {
+          var input = prompt("This case study is password protected. Please enter the password:");
+          if (input !== password) {
+            document.body.innerHTML = "<div style='display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;font-size:1.5rem;color:#a00;'>Access denied.</div>";
+            throw new Error("Access denied");
+          } else {
+            sessionStorage.setItem("case_study_pw", password);
+          }
+        }
+      })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Accelerated Checkout — Smashley's Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/S-logomark-nobg.png" />
+  <link rel="apple-touch-icon" href="images/S-logomark-nobg.png" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #723b7d;
+      --green:        #00753e;
+      --green-dark:   #004c29;
+      --ink:          #1a1a1a;
+      --ink-soft:     #444;
+      --bg:           #ffffff;
+      --bg-light:     #f2f2f2;
+      --bg-nav:       #f2f2f2;
+      --border:       #c8c8c8;
+      --green-border: rgba(0,117,62,0.3);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Montserrat', sans-serif;
+      --content-width: 1024px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      padding-top: 70px; /* Adjust to match nav height */
+    }
+
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Nav breadcrumb ──────────────────────────────────────────── */
+    .cs-nav-wrap {
+      background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .cs-nav {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 2rem 2rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cs-nav img { width: 24px; height: 24px; border-radius: 6px; object-fit: contain; }
+    .cs-nav a { font-size: 14px; font-weight: 500; color: var(--purple); text-decoration: underline; text-underline-offset: 2px; }
+    .cs-nav .sep, .cs-nav .current { font-size: 14px; font-weight: 500; color: var(--ink-soft); }
+
+    /* ── Hero ───────────────────────────────────────────────────── */
+    .cs-hero {
+      padding: 4rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .cs-hero h1 {
+      font-family: var(--font-body);
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .cs-hero-intro {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2vw, 1.375rem);
+      font-weight: 600;
+      line-height: 1.7;
+    }
+
+    .cs-hero-intro strong { font-weight: 900; }
+
+    .cs-hero-image {
+      width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.16);
+      aspect-ratio: 4 / 3;
+      background: linear-gradient(37deg, #1a5c3a, #2d7a50);
+    }
+
+    .cs-hero-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    /* ── Meta pills ──────────────────────────────────────────────── */
+    .cs-meta {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .cs-meta-item {
+      background: rgba(255,255,255,0.64);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .cs-meta-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+    .cs-meta-label { font-family: var(--font-display); font-size: 12px; color: var(--ink-soft); line-height: 1; margin-bottom: 2px; }
+    .cs-meta-value { font-size: 14px; font-weight: 600; color: var(--ink); line-height: 1.65; }
+
+    /* ── Wave divider ────────────────────────────────────────────── */
+    .wave-divider {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+      line-height: 0;
+    }
+
+    .wave-divider img { display: block; width: 100%; height: auto; }
+
+    /* ── Sections ────────────────────────────────────────────────── */
+    .cs-section { padding: 4rem 0; }
+
+    .cs-section-title {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .cs-section-icon {
+      width: 48px; height: 48px;
+      background: var(--bg-light);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; flex-shrink: 0;
+    }
+
+    .cs-section-title h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .cs-inner { padding: 0 4rem; }
+
+    .cs-body {
+      font-size: 18px;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      margin-bottom: 1rem;
+    }
+
+    /* ── Key findings ────────────────────────────────────────────── */
+    .cs-findings {
+      background: var(--bg-light);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cs-findings-title { font-size: 20px; font-weight: 600; color: var(--ink); line-height: 1.8; }
+
+    .cs-finding-item { display: flex; gap: 0.5rem; align-items: flex-start; }
+    .cs-finding-num { font-size: 18px; font-weight: 600; color: var(--purple); flex-shrink: 0; line-height: 1.8; }
+    .cs-finding-text { font-size: 16px; line-height: 1.8; }
+    .cs-finding-text strong { font-weight: 500; color: var(--ink); display: block; }
+    .cs-finding-text span { color: var(--ink-soft); font-weight: 400; }
+
+    /* ── Full-width image ────────────────────────────────────────── */
+    .cs-full-image { width: 100%; border-radius: 8px; overflow: hidden; margin: 1rem 0; }
+    .cs-full-image img { width: 100%; height: auto; display: block; }
+    .cs-full-image .placeholder { width: 100%; background: linear-gradient(37deg,#1a5c3a,#2d7a50); border-radius: 8px; }
+
+    /* ── Solution cards ──────────────────────────────────────────── */
+    .cs-solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 1rem 0; }
+
+    .cs-solution-card {
+      border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1.5rem; color: white;
+    }
+
+    .cs-solution-card.green-light { background: var(--green); }
+    .cs-solution-card.green-dark  { background: var(--green-dark); }
+    .cs-solution-card-title { font-size: 20px; font-weight: 600; line-height: 1.8; }
+    .cs-solution-card-desc  { font-size: 16px; font-weight: 500; line-height: 1.8; }
+    .cs-solution-card-meta  { display: flex; flex-direction: column; gap: 0.5rem; }
+    .cs-solution-meta-label { font-family: var(--font-display); font-size: 12px; color: rgba(255,255,255,0.64); display: block; margin-bottom: 2px; }
+    .cs-solution-meta-value { font-size: 16px; font-weight: 500; line-height: 1.65; color: white; }
+
+    /* ── Key Design Decisions — Carousel ─────────────────────────── */
+    .cs-carousel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0;
+    }
+
+    .cs-carousel-counter {
+      font-size: 16px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    .cs-carousel-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .cs-carousel-btn {
+      width: 40px; height: 40px;
+      background: rgba(255,255,255,0.64);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      transition: background 0.15s;
+    }
+
+    .cs-carousel-btn:hover { background: #fff; }
+
+    .cs-carousel-track-wrap {
+      width: 100%;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: visible;
+      padding: 0;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+
+    .cs-carousel-track {
+      display: flex;
+      gap: 2rem;
+      padding: 0 0;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .cs-carousel-card {
+      background: var(--bg-light);
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+      width: 88%;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cs-carousel-card-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: var(--bg-light);
+      flex-shrink: 0;
+    }
+
+    .cs-carousel-card-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .cs-carousel-card-body {
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .cs-carousel-tag {
+      display: inline-flex;
+      align-items: center;
+      background: var(--purple);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 2px;
+      line-height: 1;
+      align-self: flex-start;
+    }
+
+    .cs-carousel-card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.8;
+    }
+
+    .cs-carousel-card-text {
+      font-size: 16px;
+      color: var(--ink-soft);
+      line-height: 1.8;
+    }
+
+    .cs-carousel-card-text p + p { margin-top: 0.75rem; }
+
+    /* ── Results ─────────────────────────────────────────────────── */
+    .cs-results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2rem; }
+
+    .cs-stat-card {
+      border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem; color: white;
+    }
+
+    .cs-stat-card.green-light { background: var(--green); }
+    .cs-stat-card.green-dark  { background: var(--green-dark); }
+    .cs-stat-icon { font-size: 2rem; line-height: 1; }
+    .cs-stat-label { font-family: var(--font-display); font-size: 12px; color: rgba(255,255,255,0.64); }
+    .cs-stat-value { font-size: 2rem; font-weight: 600; line-height: 1; }
+    .cs-stat-desc  { font-size: 16px; font-weight: 500; line-height: 1.8; }
+
+    /* ── Reflections ─────────────────────────────────────────────── */
+    .cs-reflections-box {
+      background: var(--bg-light); border-radius: 8px; padding: 1.5rem;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+
+    .cs-reflections-box h3 { font-size: 20px; font-weight: 600; line-height: 1.8; color: var(--ink); }
+
+    .cs-reflections-box ul { list-style: disc; padding-left: 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+    .cs-reflections-box li { font-size: 16px; font-weight: 500; line-height: 1.8; color: var(--ink); }
+
+    /* ── Dark Mode ───────────────────────────────────────────────── */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --purple:   #a673b4;
+        --ink:      #f0f0f0;
+        --ink-soft: #aaa;
+        --bg:       #0f0f0f;
+        --bg-light: #1a1a1a;
+        --bg-nav:   #1a1a1a;
+        --border:   #333;
+      }
+      body { background: var(--bg); }
+      .cs-meta-item { background: rgba(255,255,255,0.05); }
+      .cs-carousel-btn { background: rgba(255,255,255,0.08); }
+    }
+
+    /* ── Responsive ──────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .cs-meta          { grid-template-columns: 1fr 1fr; }
+      .cs-solution-grid { grid-template-columns: 1fr; }
+      .cs-results-grid  { grid-template-columns: 1fr; }
+      .cs-inner         { padding: 0 1rem; }
+      .cs-carousel-header    { padding: 0 1rem; }
+      .cs-carousel-track-wrap { padding: 0 1rem; }
+      .cs-carousel-card { width: 85%; }
+    }
+
+    @media (max-width: 480px) {
+      .cs-meta { grid-template-columns: 1fr; }
+      .cs-carousel-card { width: 90%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav breadcrumb -->
+  <div class="cs-nav-wrap">
+    <nav class="cs-nav">
+      <img src="images/S-logomark-nobg.png" alt="Smashley logo" />
+      <a href="index.html">Smashley's Design Portfolio</a>
+      <span class="sep">/</span>
+      <span class="current">Product Size Consolidation</span>
+    </nav>
+  </div>
+
+  <div class="container">
+    <section class="cs-hero">
+      <h1>Product Size Consolidation</h1>
+      <p class="cs-hero-intro">Prevented revenue loss and preserved SEO, analytics, and marketing integrity by redefining size-variant architecture and UI</p>
+      <div class="cs-hero-image">
+        <video src="images/SizeConsolidationPromo.mp4" autoplay loop muted playsinline style="width:100%;height:100%;object-fit:cover;display:block;" aria-label="Size Consolidation Promo"></video>
+      </div>
+      <div class="cs-meta">
+        <div class="cs-meta-item"><span class="cs-meta-icon">👤</span><div><p class="cs-meta-label">Client</p><p class="cs-meta-value">Publix</p></div></div>
+        <div class="cs-meta-item"><span class="cs-meta-icon">📅</span><div><p class="cs-meta-label">Timeline</p><p class="cs-meta-value">~8–12 weeks (est.)</p></div></div>
+        <div class="cs-meta-item"><span class="cs-meta-icon">⏱️</span><div><p class="cs-meta-label">Year</p><p class="cs-meta-value">2025</p></div></div>
+        <div class="cs-meta-item"><span class="cs-meta-icon">🎨</span><div><p class="cs-meta-label">Role</p><p class="cs-meta-value">Lead Designer</p></div></div>
+      </div>
+    </section>
+  </div>
+
+      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+      <div class="container">
+        <section class="cs-section">
+          <div class="cs-section-title"><div class="cs-section-icon">🎯</div><h2>Context &amp; Challenge</h2></div>
+          <div class="cs-inner">
+            <p class="cs-body">Engineering initiated a test to consolidate size variants (Small, Medium, Large) into a single product card, allowing customers to select size on the PDP instead of navigating separate product pages.</p>
+            <p class="cs-body">While the concept had clear UX potential—reducing redundancy and simplifying browsing—the execution introduced critical issues across both the frontend experience and backend architecture.</p>
+            <p class="cs-body">Most notably, all size variants were collapsed under a single ProductID, removing unique identifiers for Medium and Large sizes.</p>
+            <p class="cs-body">What initially appeared to be a UI simplification revealed a much larger problem: the change disrupted core systems supporting SEO, paid media, analytics, and customer navigation, creating significant risk to revenue and platform stability.</p>
+          </div>
+        </section>
+      </div>
+
+      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+      <div class="container">
+        <section class="cs-section">
+          <div class="cs-section-title"><div class="cs-section-icon">💡</div><h2>Research</h2></div>
+          <div class="cs-inner">
+            <p class="cs-body">Reviewing the test implementation uncovered three critical gaps:</p>
+            <div class="cs-findings">
+              <p class="cs-findings-title">Key Findings</p>
+              <div class="cs-finding-item"><span class="cs-finding-num">➊</span><div class="cs-finding-text"><strong>The solution did not align with customer mental models</strong><span>Unlike subs, catering sizes represent fundamentally different use cases (serving different group sizes), not interchangeable variations.</span><span>Collapsing sizes into a single entity overlooked this distinction, creating confusion in how customers evaluate options.</span></div></div>
+              <div class="cs-finding-item"><span class="cs-finding-num">➋</span><div class="cs-finding-text"><strong>Breaking product identifiers created downstream system failures</strong><span>Collapsing sizes under a single ProductID removed unique URLs and identifiers for Medium and Large variants.</span><span>This resulted in:</span><span>Broken marketing and paid media links</span><span>Loss of SEO value and indexed pages</span><span>Inability to track size-level performance</span><span>Disruptions to internal tools and reporting systems</span></div></div>
+              <div class="cs-finding-item"><span class="cs-finding-num">➌</span><div class="cs-finding-text"><strong>Short-term consistency introduced long-term scalability risk</strong><span>The approach attempted to reuse an existing pattern (subs), but did not account for differences in product structure.</span><span>Without a flexible model, the system could not support both UX simplification and business-critical requirements, creating risk if scaled further.</span></div></div>
+            </div>
+            <p class="cs-body">These findings revealed that the problem was not just UI—it was a misalignment between frontend experience, backend architecture, and customer intent.</p>
+          </div>
+        </section>
+      </div>
+
+      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+      <div class="container">
+        <section class="cs-section">
+          <div class="cs-section-title"><div class="cs-section-icon">✨</div><h2>Solution</h2></div>
+          <div class="cs-inner">
+            <p class="cs-body">To address both immediate usability issues and long-term system risks, I proposed a solution that balanced UX clarity with architectural integrity.</p>
+            <p class="cs-body">This approach ensured we could simplify the experience without compromising the systems that drive revenue and performance.</p>
+            <div class="cs-findings">
+              <div class="cs-finding-item"><span class="cs-finding-num">➊</span><div class="cs-finding-text"><strong>Short-Term UI Improvements</strong><span>Quick updates to improve clarity and scannability in the live test:</span><span><strong>Impact</strong></span><span>Improved visibility of size options</span><span>Reduced risk of misinterpretation</span><span>Enabled clearer promotion of size-based pricing</span></div></div>
+              <div class="cs-finding-item"><span class="cs-finding-num">➋</span><div class="cs-finding-text"><strong>Validated Long-Term UI Direction</strong><span>Explored and tested multiple product card variations to ensure customers could easily understand size options.</span><span><strong>Impact</strong></span><span>100% recognition of multiple sizes across prototypes</span><span>High confidence scores (4.8–5.0 / 5)</span><span>Identified scalable UI patterns without adding engineering overhead</span></div></div>
+              <div class="cs-finding-item"><span class="cs-finding-num">➌</span><div class="cs-finding-text"><strong>Scalable Catalog Architecture</strong><span>Defined a new structure that preserves system integrity while enabling flexible UI patterns:</span><span>Maintain unique ProductIDs and URLs for each size</span><span>Introduce a parent grouping attribute for logical association</span><span><strong>Impact</strong></span><span>Preserves SEO, analytics, and deep-linking</span><span>Enables flexible UI (single card or multiple cards)</span><span>Creates a scalable foundation for future products</span></div></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+      <div class="container">
+        <section class="cs-section">
+          <div class="cs-section-title"><div class="cs-section-icon">🔑</div><h2>Key Design Decisions</h2></div>
+          <div class="cs-inner">
+            <div class="cs-findings">
+              <div class="cs-finding-item"><span class="cs-finding-num">1 of 3</span><div class="cs-finding-text"><strong>Prioritizing immediate clarity while addressing larger issues</strong><span>We introduced quick UI improvements to the live test to reduce confusion and improve scanability without delaying progress.</span></div></div>
+              <div class="cs-finding-item"><span class="cs-finding-num">2 of 3</span><div class="cs-finding-text"><strong>Balancing usability with engineering feasibility</strong><span>While multiple concepts performed well in testing, we selected the solution that met usability goals while minimizing additional engineering effort.</span></div></div>
+              <div class="cs-finding-item"><span class="cs-finding-num">3 of 3</span><div class="cs-finding-text"><strong>Redefining architecture to support both UX and business needs</strong><span>We restored size-level ProductIDs while introducing a parent relationship, ensuring the system reflects both customer understanding and technical requirements.</span></div></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+      <div class="container">
+        <section class="cs-section">
+          <div class="cs-section-title"><div class="cs-section-icon">🚀</div><h2>Impact &amp; Measurement Plan</h2></div>
+          <div class="cs-inner">
+            <div class="cs-results-grid">
+              <div class="cs-stat-card green-light">
+                <span class="cs-stat-icon">📈</span>
+                <p class="cs-stat-label">Conversion Rate</p>
+                <div><p class="cs-stat-value">Projected +3% lift</p><p class="cs-stat-desc">on size-based products</p></div>
+              </div>
+              <div class="cs-stat-card green-dark">
+                <span class="cs-stat-icon">⏱️</span>
+                <p class="cs-stat-label">Time to Selection</p>
+                <div><p class="cs-stat-value">Projected 10% reduction</p></div>
+              </div>
+              <div class="cs-stat-card green-light">
+                <span class="cs-stat-icon">📉</span>
+                <p class="cs-stat-label">Drop-Off Rate</p>
+                <div><p class="cs-stat-value">Expected decrease</p><p class="cs-stat-desc">between PDP and add-to-cart</p></div>
+              </div>
+              <div class="cs-stat-card green-dark">
+                <span class="cs-stat-icon">🧩</span>
+                <p class="cs-stat-label">System Integrity</p>
+                <div><p class="cs-stat-value">Restores full SEO, analytics, and marketing functionality</p></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+      <div class="container">
+        <section class="cs-section">
+          <div class="cs-section-title"><div class="cs-section-icon">💭</div><h2>Reflections</h2></div>
+          <div class="cs-inner">
+            <p class="cs-body">This project reinforced that small UI changes can have significant system-level consequences.</p>
+            <p class="cs-body">What initially appeared to be a simple UX improvement surfaced deeper dependencies across analytics, marketing, SEO, and backend architecture.</p>
+            <p class="cs-body">By addressing both the user experience and underlying system design, we ensured the solution not only improves usability—but also protects and enables long-term business performance.</p>
+            <div class="cs-reflections-box">
+              <h3>What I’d Do Differently</h3>
+              <ul>
+                <li>Validate architectural implications earlier before testing UI changes</li>
+                <li>Align more closely with engineering on system dependencies upfront</li>
+                <li>Define success metrics prior to test implementation</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="wave-divider"><img src="images/divider-purple.png" alt="" aria-hidden="true" /></div>
+
+      <div class="container">
+        <div style="padding: 2rem 0 5rem;">
+          <a href="index.html" style="font-size:13px;font-weight:500;color:var(--purple);text-decoration:underline;text-underline-offset:2px;">← Back to portfolio</a>
+        </div>
+      </div>
+
+
+
+</body>
+</html>

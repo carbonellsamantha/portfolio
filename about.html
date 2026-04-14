@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Me – Smashley's Design Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/S-logomark-nobg.png" />
+  <link rel="apple-touch-icon" href="images/S-logomark-nobg.png" />
+  <style>
+        /* ── Animations ────────────────────────────────────────────── */
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-photo {
+          animation: fadeUp 0.7s cubic-bezier(.4,0,.2,1) 0.05s both;
+        }
+        .hero-content {
+          animation: fadeUp 0.7s cubic-bezier(.4,0,.2,1) 0.15s both;
+        }
+        .fun-facts-title {
+          animation: fadeUp 0.7s cubic-bezier(.4,0,.2,1) 0.3s both;
+        }
+        .fun-facts-grid {
+          animation: fadeUp 0.7s cubic-bezier(.4,0,.2,1) 0.45s both;
+        }
+        .fun-facts-contact {
+          animation: fadeUp 0.7s cubic-bezier(.4,0,.2,1) 0.6s both;
+        }
+    /* ── Reset & Variables ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --purple:       #723b7d;
+      --pink:         #FFBAD0;
+      --purple-light: #f7f3f7;
+      --ink:          #1A1A1A;
+      --ink-soft:     #444;
+      --ink-muted:    #777;
+      --bg:           #FFFFFF;
+      --border:       #c8c8c8;
+
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'Montserrat', sans-serif;
+
+      --content-width: 1024px;
+      --text-measure: 65ch;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.75;
+      color: var(--ink);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Layout ────────────────────────────────────────────────── */
+    .container {
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Nav ───────────────────────────────────────────────────── */
+    nav {
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: var(--content-width);
+      margin: 0 auto;
+      padding-top: 64px;
+    }
+
+    .nav-logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-decoration: none;
+      margin-left: 2rem;
+    }
+    .nav-link:hover { opacity: 0.75; }
+    .nav-resume {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--purple);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .nav-resume:hover { opacity: 0.75; }
+
+
+
+    /* ── Hero ──────────────────────────────────────────────────── */
+    .hero {
+      padding: 2rem 0 1.5rem;
+      display: flex;
+      gap: 2.5rem;
+      align-items: flex-start;
+      margin-top: 1rem;
+      margin-bottom: 0;
+      flex-wrap: wrap;
+     max-width: var(--content-width);
+    }
+
+    .hero-eyebrow {
+      font-size: 14px;
+      font-family: var(--font-display);
+      color: var(--ink-soft);
+      line-height: 1;
+    }
+
+    .hero-eyebrow .purple { color: var(--purple); }
+
+    .hero h1 {
+      font-family: var(--font-body);
+      font-size: clamp(2.2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: var(--ink);
+    }
+
+    .hero-mission {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2vw, 1.375rem);
+      font-weight: 600;
+      line-height: 1.7;
+      color: var(--ink);
+      max-width: var(--text-measure);
+    }
+
+    .hero-sub {
+      font-size: 14px;
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--ink-soft);
+      max-width: var(--text-measure);
+    }
+    
+    .hero-photo {
+      flex: 0 0 300px;
+      width: 300px;
+      height: 360px;
+      border-radius: 32px;
+      overflow: hidden;
+      background: #eee;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+    }
+    
+    .hero-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 32px;
+      display: block;
+    }
+
+    .hero-content {
+      flex: 1 1 320px;
+      min-width: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-top: 0;
+      gap: 1rem;
+    }
+
+
+    /* ── Section Divider ──────────────────────────────────────────────────── */
+    .wave-divider {
+      margin: 0;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .wave-divider img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* ── Fun Facts ──────────────────────────────────────────────────── */
+    .fun-facts-section {
+      background: var(--purple);
+      color: #fff;
+      margin-top: 0;
+      padding: 3.5rem 0 4rem 0;
+      border-radius: 0 0 0 0;
+    }
+    .fun-facts-title {
+      text-align: center;
+      font-family:  var(--font-body);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0;
+    }
+    .fun-facts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      max-width: var(--content-width);
+      margin: 0 auto 0 auto;
+    }
+    .fun-fact {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 0 0 1rem 0;
+      min-height: 120px;
+      border-radius: 0;
+      background: none;
+      box-shadow: none;
+      border-bottom: 2px solid var(--pink);
+    }
+    .fun-fact-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    .fun-fact-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .fun-fact-desc {
+      font-size: 0.97rem;
+      color: #e6d6ec;
+    }
+    .footer {
+      text-align: left;
+      padding: 2rem 0 4rem 0;
+      font-size: 14px;
+      color: #444;
+      max-width: 1024px;
+      margin: 0 auto;
+    }
+    .footer a {
+      color: #723b7d;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    @media (max-width: 1024px) {
+      .container, nav, .footer, .wave-divider { max-width: 100%; }
+    }
+    @media (max-width: 900px) {
+      .about-hero { flex-direction: column; gap: 1.5rem; }
+      .about-hero-photo { margin: 0 auto 1.5rem auto; }
+      .fun-facts-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 600px) {
+      .about-hero { flex-direction: column; gap: 1.5rem; }
+      .about-hero-photo { margin: 0 auto 1.5rem auto; }
+      .fun-facts-grid { grid-template-columns: 1fr; }
+    }
+        .fun-facts-inner { padding-left: 2rem; padding-right: 2rem; }
+  </style>
+</head>
+  <body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="index.html"><img src="images/S-logomark-nobg.png" class="nav-logo" alt="Smashley logo" /></a>
+    <div style="display:flex;gap:2rem;align-items:center;">
+      <a class="nav-link" href="about.html">About Me</a>
+      <a class="nav-resume" href="https://drive.google.com/file/d/1CLvbRAupjjdPRGroU3NVHGh6mayMVma5/view" target="_blank" rel="noopener">Resume</a>
+    </div>
+  </nav>
+
+    <!-- Breadcrumbs-->
+
+  <div class="container">
+    <div class="breadcrumbs" style="font-size:14px;margin-bottom:1.5rem;color:var(--ink-soft);font-family:'Montserrat',sans-serif;">
+      <a href="index.html" style="color:#723b7d;text-decoration:underline;text-underline-offset:2px;">Smashley's Design Portfolio</a><span style="color:var(--ink-soft);"> / About Me</span>
+    </div>
+
+  <!-- Hero -->
+    <div class="hero">
+      <div class="hero-photo">
+        <img src="images/Photo.png" alt="Samantha Ashley Carbonell portrait" />
+      </div>
+      <div class="hero-content">
+        <p class="hero-eyebrow">Samantha Ashley Carbonell &nbsp;·&nbsp; <span class="purple">Lead Product Designer</span></p>
+        <h1>About me</h1>
+        <p class="hero-sub">
+          I tend to follow whatever I'm curious about and go all in on it. Whether that's learning a new language, traveling somewhere unfamiliar, or building a camper van from scratch, I figure things out by doing. Traveling has played a big role in that—it's made me more open-minded and curious, and I naturally pull inspiration from different cultures into my artwork, hobbies, and the way I approach my work.<br><br>
+          I do my best when I have a clear, defined goal to move toward—like signing up for a bodybuilding competition or a language placement exam with a set date, or setting a deadline to finish building my van and hit the road. I like having something concrete to work toward, even if I don't fully know how I'll get there yet.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="wave-divider">
+    <img src="images/section-divider.png" alt="" aria-hidden="true" />
+  </div>
+  <section class="fun-facts-section">
+    <div style="max-width: var(--content-width); margin: 0 auto;">
+      <div class="fun-facts-title">Fun facts</div>
+      <div class="fun-facts-inner" style="max-width: var(--content-width); margin: 0 auto;">
+      <div class="fun-facts-grid">
+        <div class="fun-fact">
+          <div class="fun-fact-icon">🇯🇵</div>
+          <div class="fun-fact-title">I can speak <span style="color:var(--pink);">Japanese</span></div>
+          <div class="fun-fact-desc">I went to high school there and try to go back every year when I can.</div>
+        </div>
+        <div class="fun-fact">
+          <div class="fun-fact-icon">🚐</div>
+          <div class="fun-fact-title">I built and lived in a <span style="color:var(--pink);">van</span></div>
+          <div class="fun-fact-desc">My dog and I traveled the U.S. for 6 months in a van I built myself.</div>
+        </div>
+        <div class="fun-fact">
+          <div class="fun-fact-icon">🌍</div>
+          <div class="fun-fact-title">I've traveled to <span style="color:var(--pink);">46</span> countries</div>
+          <div class="fun-fact-desc">My longest trip was 6 months and really changed how I see the world.</div>
+        </div>
+        <div class="fun-fact">
+          <div class="fun-fact-icon">💻</div>
+          <div class="fun-fact-title">I was <span style="color:var(--pink);">remote</span> before remote</div>
+          <div class="fun-fact-desc">I helped shape remote policies at my company before COVID made it standard.</div>
+        </div>
+        <div class="fun-fact">
+          <div class="fun-fact-icon">🏋️‍♀️</div>
+          <div class="fun-fact-title">I used to <span style="color:var(--pink);">compete</span></div>
+          <div class="fun-fact-desc">I trained in bodybuilding and Olympic lifting and placed 1st a few times.</div>
+        </div>
+        <div class="fun-fact">
+          <div class="fun-fact-icon">🎮</div>
+          <div class="fun-fact-title">I have lots of <span style="color:var(--pink);">hobbies</span></div>
+          <div class="fun-fact-desc">I'm into Magic: The Gathering, video games, anime, cosplay, and painting.</div>
+        </div>
+      </div>
+      <div class="fun-facts-contact" style="text-align:left;margin-top:3.5rem;font-size:1.08rem;">
+        Reach me at <a href="mailto:carbonellsam@gmail.com" style="color:var(--pink);text-decoration:underline;text-underline-offset:2px;">carbonellsam@gmail.com</a>
+      </div>
+    </div>
+  </section>
+  <!-- Footer intentionally left empty -->
+  </body>
+</body>
+</html>

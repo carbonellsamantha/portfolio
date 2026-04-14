@@ -64,6 +64,15 @@
       object-fit: contain;
     }
 
+    .nav-link {
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      text-decoration: none;
+      margin-left: 2rem;
+    }
+    .nav-link:hover { opacity: 0.75; }
     .nav-resume {
       font-family: var(--font-body);
       font-size: 14px;
@@ -93,7 +102,7 @@
     .hero-eyebrow .purple { color: var(--purple); }
 
     .hero h1 {
-      font-family: var(--font-display);
+      font-family: var(--font-body);
       font-size: clamp(2.2rem, 5vw, 3.25rem);
       font-weight: 700;
       line-height: 1.15;
@@ -303,8 +312,11 @@
 
   <!-- Nav -->
   <nav>
-    <img src="images/S-logomark-nobg.png" class="nav-logo" alt="Smashley logo" />
-    <a class="nav-resume" href="https://drive.google.com/file/d/1CLvbRAupjjdPRGroU3NVHGh6mayMVma5/view" target="_blank" rel="noopener">Resume</a>
+    <a href="index.html"><img src="images/S-logomark-nobg.png" class="nav-logo" alt="Smashley logo" /></a>
+    <div style="display:flex;gap:2rem;align-items:center;">
+      <a class="nav-link" href="about.html">About Me</a>
+      <a class="nav-resume" href="https://drive.google.com/file/d/1CLvbRAupjjdPRGroU3NVHGh6mayMVma5/view" target="_blank" rel="noopener">Resume</a>
+    </div>
   </nav>
 
   <div class="container">

@@ -9,22 +9,24 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" type="image/png" href="images/S-logomark-nobg.png" />
   <link rel="apple-touch-icon" href="images/S-logomark-nobg.png" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --purple:       #723b7d;
-      --green:        #00753e;
-      --green-dark:   #004c29;
-      --ink:          #1a1a1a;
-      --ink-soft:     #444;
-      --bg:           #ffffff;
-      --bg-light:     #f2f2f2;
-      --bg-nav:       #f2f2f2;
-      --border:       #c8c8c8;
-      --green-border: rgba(0,117,62,0.3);
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body:    'Montserrat', sans-serif;
+    <!--
+    <script>
+      // Simple password protection (not secure for sensitive info)
+      (function() {
+        var password = "letmein"; // Change this to your desired password
+        var entered = sessionStorage.getItem("case_study_pw");
+        if (entered !== password) {
+          var input = prompt("This case study is password protected. Please enter the password:");
+          if (input !== password) {
+            document.body.innerHTML = "<div style='display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;font-size:1.5rem;color:#a00;'>Access denied.</div>";
+            throw new Error("Access denied");
+          } else {
+            sessionStorage.setItem("case_study_pw", password);
+          }
+        }
+      })();
+    </script>
+    -->
       --content-width: 1024px;
     }
 
